@@ -44,6 +44,7 @@ enum MailboxType
   MUTT_MAILBOX_ANY = -2,   ///< Match any Mailbox type
   MUTT_MAILBOX_ERROR = -1, ///< Error occurred examining Mailbox
   MUTT_UNKNOWN = 0,        ///< Mailbox wasn't recognised
+  MUTT_LOCAL_PATH,         ///< Local file/directory
   MUTT_MBOX,               ///< 'mbox' Mailbox type
   MUTT_MMDF,               ///< 'mmdf' Mailbox type
   MUTT_MH,                 ///< 'MH' Mailbox type
