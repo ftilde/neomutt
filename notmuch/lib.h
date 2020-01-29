@@ -29,6 +29,7 @@
  * | :--------------------- | :------------------ |
  * | notmuch/mutt_notmuch.c | @subpage nm_notmuch |
  * | notmuch/nm_db.c        | @subpage nm_db      |
+ * | notmuch/path.c         | @subpage nm_path    |
  */
 
 #ifndef MUTT_NOTMUCH_LIB_H

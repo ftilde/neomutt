@@ -20,14 +20,17 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#ifndef MUTT_NOTMUCH_NOTMUCH_PRIVATE_H
+#define MUTT_NOTMUCH_NOTMUCH_PRIVATE_H
+
 #include <notmuch.h>
 #include <stdbool.h>
 #include <time.h>
 #include "core/lib.h"
 #include "progress.h"
 
-#ifndef MUTT_NOTMUCH_NOTMUCH_PRIVATE_H
-#define MUTT_NOTMUCH_NOTMUCH_PRIVATE_H
+struct MuttPath;
+struct stat;
 
 #ifdef LIBNOTMUCH_CHECK_VERSION
 #undef LIBNOTMUCH_CHECK_VERSION
@@ -110,5 +113,12 @@ struct NmEmailData *  nm_edata_new (void);
 void                  nm_mdata_free(void **ptr);
 struct NmMboxData *   nm_mdata_get (struct Mailbox *m);
 struct NmMboxData *   nm_mdata_new (const char *uri);
+
+int              nm_path2_canon  (struct MuttPath *path);
+int              nm_path2_compare(struct MuttPath *path1, struct MuttPath *path2);
+int              nm_path2_parent (const struct MuttPath *path, struct MuttPath **parent);
+int              nm_path2_pretty (const struct MuttPath *path, const char *folder, char **pretty);
+enum MailboxType nm_path2_probe  (struct MuttPath *path, const struct stat *st);
+int              nm_path2_tidy   (struct MuttPath *path);
 
 #endif /* MUTT_NOTMUCH_NOTMUCH_PRIVATE_H */

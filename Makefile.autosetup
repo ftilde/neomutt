@@ -68,7 +68,7 @@ NEOMUTTOBJS=	addrbook.o alias.o bcache.o browser.o commands.o \
 		keymap.o mailcap.o main.o menu.o mutt_account.o mutt_attach.o \
 		mutt_body.o mutt_header.o mutt_history.o mutt_logging.o mutt_mailbox.o \
 		mutt_parse.o mutt_signal.o mutt_socket.o mutt_thread.o \
-		muttlib.o mx.o myvar.o pager.o pattern.o postpone.o progress.o query.o \
+		muttlib.o mx.o mx_path.o myvar.o pager.o pattern.o postpone.o progress.o query.o \
 		recvattach.o recvcmd.o resize.o rfc3676.o score.o send.o sendlib.o \
 		sidebar.o smtp.o sort.o state.o status.o system.o version.o \
 		mutt_commands.o mutt_config.o command_parse.o
@@ -108,7 +108,7 @@ ALLOBJS+=	$(LIBAUTOCRYPTOBJS)
 ###############################################################################
 # libpop
 LIBPOP=	libpop.a
-LIBPOPOBJS=	pop/pop.o pop/pop_auth.o pop/pop_lib.o
+LIBPOPOBJS=	pop/pop.o pop/pop_auth.o pop/pop_lib.o pop/path.o
 CLEANFILES+=	$(LIBPOP) $(LIBPOPOBJS)
 MUTTLIBS+=	$(LIBPOP)
 ALLOBJS+=	$(LIBPOPOBJS)
@@ -116,7 +116,7 @@ ALLOBJS+=	$(LIBPOPOBJS)
 ###############################################################################
 # libnntp
 LIBNNTP=	libnntp.a
-LIBNNTPOBJS=	nntp/browse.o nntp/complete.o nntp/newsrc.o nntp/nntp.o
+LIBNNTPOBJS=	nntp/browse.o nntp/complete.o nntp/newsrc.o nntp/nntp.o nntp/path.o
 CLEANFILES+=	$(LIBNNTP) $(LIBNNTPOBJS)
 MUTTLIBS+=	$(LIBNNTP)
 ALLOBJS+=	$(LIBNNTPOBJS)
@@ -143,7 +143,7 @@ ALLOBJS+=	$(LIBDEBUGOBJS)
 ###############################################################################
 # libmbox
 LIBMBOX=	libmbox.a
-LIBMBOXOBJS=	mbox/mbox.o
+LIBMBOXOBJS=	mbox/mbox.o mbox/path.o
 CLEANFILES+=	$(LIBMBOX) $(LIBMBOXOBJS)
 MUTTLIBS+=	$(LIBMBOX)
 ALLOBJS+=	$(LIBMBOXOBJS)
@@ -152,7 +152,7 @@ ALLOBJS+=	$(LIBMBOXOBJS)
 # libnotmuch
 @if USE_NOTMUCH
 LIBNOTMUCH=	libnotmuch.a
-LIBNOTMUCHOBJS=	notmuch/mutt_notmuch.o notmuch/nm_db.o
+LIBNOTMUCHOBJS=	notmuch/mutt_notmuch.o notmuch/nm_db.o notmuch/path.o
 CLEANFILES+=	$(LIBNOTMUCH) $(LIBNOTMUCHOBJS)
 MUTTLIBS+=	$(LIBNOTMUCH)
 ALLOBJS+=	$(LIBNOTMUCHOBJS)
@@ -161,7 +161,7 @@ ALLOBJS+=	$(LIBNOTMUCHOBJS)
 ###############################################################################
 # libmaildir
 LIBMAILDIR=	libmaildir.a
-LIBMAILDIROBJS=	maildir/maildir.o maildir/mh.o maildir/shared.o
+LIBMAILDIROBJS=	maildir/maildir.o maildir/mh.o maildir/path.o maildir/shared.o
 CLEANFILES+=	$(LIBMAILDIR) $(LIBMAILDIROBJS)
 MUTTLIBS+=	$(LIBMAILDIR)
 ALLOBJS+=	$(LIBMAILDIROBJS)
@@ -191,7 +191,8 @@ ALLOBJS+=	$(LIBNCRYPTOBJS)
 LIBIMAP=	libimap.a
 LIBIMAPOBJS=	imap/auth.o \
 		imap/auth_login.o imap/auth_oauth.o imap/auth_plain.o imap/browse.o \
-		imap/command.o imap/imap.o imap/message.o imap/utf7.o imap/util.o
+		imap/command.o imap/imap.o imap/message.o imap/utf7.o imap/util.o \
+		imap/path.o
 @if USE_GSS
 LIBIMAPOBJS+=	imap/auth_gss.o
 @endif

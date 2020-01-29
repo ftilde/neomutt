@@ -33,6 +33,7 @@
  * | nntp/complete.c | @subpage nntp_complete |
  * | nntp/newsrc.c   | @subpage nntp_newsrc   |
  * | nntp/nntp.c     | @subpage nntp_nntp     |
+ * | nntp/path.c     | @subpage nntp_path     |
  */
 
 #ifndef MUTT_NNTP_LIB_H

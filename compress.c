@@ -926,6 +926,54 @@ static int comp_path_parent(char *buf, size_t buflen)
   return -1;
 }
 
+/**
+ * comp_path2_canon - Canonicalise a Mailbox path - Implements MxOps::path2_canon
+ */
+int comp_path2_canon(struct MuttPath *path)
+{
+  return -1;
+}
+
+/**
+ * comp_path2_compare - Compare two Maibox paths - Implements MxOps::path2_compare
+ */
+int comp_path2_compare(struct MuttPath *path1, struct MuttPath *path2)
+{
+  return -1;
+}
+
+/**
+ * comp_path2_parent - Find the parent of a Mailbox path - Implements MxOps::path2_parent
+ */
+int comp_path2_parent(const struct MuttPath *path, struct MuttPath **parent)
+{
+  return -1;
+}
+
+/**
+ * comp_path2_pretty - Abbreviate a Mailbox path - Implements MxOps::path2_pretty
+ */
+int comp_path2_pretty(const struct MuttPath *path, const char *folder, char **pretty)
+{
+  return -1;
+}
+
+/**
+ * comp_path2_probe - Does this Mailbox type recognise this path? - Implements MxOps::path2_probe
+ */
+int comp_path2_probe(struct MuttPath *path, const struct stat *st)
+{
+  return -1;
+}
+
+/**
+ * comp_path2_tidy - Tidy a Mailbox path - Implements MxOps::path2_tidy
+ */
+int comp_path2_tidy(struct MuttPath *path)
+{
+  return -1;
+}
+
 // clang-format off
 /**
  * MxCompOps - Compressed Mailbox - Implements ::MxOps
@@ -957,5 +1005,11 @@ struct MxOps MxCompOps = {
   .path_canon       = comp_path_canon,
   .path_pretty      = comp_path_pretty,
   .path_parent      = comp_path_parent,
+  .path2_canon      = comp_path2_canon,
+  .path2_compare    = comp_path2_compare,
+  .path2_parent     = comp_path2_parent,
+  .path2_pretty     = comp_path2_pretty,
+  .path2_probe      = comp_path2_probe,
+  .path2_tidy       = comp_path2_tidy,
 };
 // clang-format on

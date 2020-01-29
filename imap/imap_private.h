@@ -32,12 +32,14 @@
 #include <time.h>
 #include "mutt/lib.h"
 #include "config/lib.h"
+#include "core/lib.h"
 #include "conn/lib.h"
 #include "hcache/lib.h"
 
 struct Email;
 struct Mailbox;
 struct Message;
+struct MuttPath;
 struct Progress;
 
 #define IMAP_PORT     143  ///< Default port for IMAP
@@ -295,6 +297,14 @@ int imap_msg_open(struct Mailbox *m, struct Message *msg, int msgno);
 int imap_msg_close(struct Mailbox *m, struct Message *msg);
 int imap_msg_commit(struct Mailbox *m, struct Message *msg);
 int imap_msg_save_hcache(struct Mailbox *m, struct Email *e);
+
+/* path.c */
+int              imap_path2_canon  (struct MuttPath *path, const char *delims);
+int              imap_path2_compare(struct MuttPath *path1, struct MuttPath *path2);
+int              imap_path2_parent (const struct MuttPath *path, const char *delims, struct MuttPath **parent);
+int              imap_path2_pretty (const struct MuttPath *path, const char *folder, char **pretty);
+enum MailboxType imap_path2_probe  (struct MuttPath *path, const struct stat *st);
+int              imap_path2_tidy   (struct MuttPath *path);
 
 /* util.c */
 struct ImapAccountData *imap_adata_get(struct Mailbox *m);

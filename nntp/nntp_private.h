@@ -1,9 +1,9 @@
 /**
  * @file
- * Usenet network mailbox type; talk to an NNTP server
+ * Shared constants/structs that are private to Nntp
  *
  * @authors
- * Copyright (C) 2018 Richard Russon <rich@flatcap.org>
+ * Copyright (C) 2018-2020 Richard Russon <rich@flatcap.org>
  *
  * @copyright
  * This program is free software: you can redistribute it and/or modify it under
@@ -25,12 +25,15 @@
 
 #include "config.h"
 #include <stdint.h>
+#include "core/lib.h"
 #include "hcache/lib.h"
 #include "lib.h"
 
 struct Connection;
 struct Email;
 struct Mailbox;
+struct MuttPath;
+struct stat;
 
 #define NNTP_PORT 119
 #define NNTP_SSL_PORT 563
@@ -61,5 +64,12 @@ int  nntp_open_connection(struct NntpAccountData *adata);
 void nntp_article_status(struct Mailbox *m, struct Email *e, char *group, anum_t anum);
 header_cache_t *nntp_hcache_open(struct NntpMboxData *mdata);
 void nntp_hcache_update(struct NntpMboxData *mdata, header_cache_t *hc);
+
+int              nntp_path2_canon  (struct MuttPath *path);
+int              nntp_path2_compare(struct MuttPath *path1, struct MuttPath *path2);
+int              nntp_path2_parent (const struct MuttPath *path, struct MuttPath **parent);
+int              nntp_path2_pretty (const struct MuttPath *path, const char *folder, char **pretty);
+enum MailboxType nntp_path2_probe  (struct MuttPath *path, const struct stat *st);
+int              nntp_path2_tidy   (struct MuttPath *path);
 
 #endif /* MUTT_NNTP_NNTP_PRIVATE_H */

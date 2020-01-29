@@ -2904,5 +2904,11 @@ struct MxOps MxNntpOps = {
   .path_canon       = nntp_path_canon,
   .path_pretty      = nntp_path_pretty,
   .path_parent      = nntp_path_parent,
+  .path2_canon      = nntp_path2_canon,
+  .path2_compare    = nntp_path2_compare,
+  .path2_parent     = nntp_path2_parent,
+  .path2_pretty     = nntp_path2_pretty,
+  .path2_probe      = nntp_path2_probe,
+  .path2_tidy       = nntp_path2_tidy,
 };
 // clang-format on

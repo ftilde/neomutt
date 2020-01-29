@@ -2584,6 +2584,22 @@ static int imap_path_parent(char *buf, size_t buflen)
   return 0;
 }
 
+/**
+ * imap_path2_canon_wrapper - Canonicalise a Mailbox path - Implements MxOps::path2_canon
+ */
+static int imap_path2_canon_wrapper(struct MuttPath *path)
+{
+  return -1;
+}
+
+/**
+ * imap_path2_parent_wrapper - Find the parent of a Mailbox path - Implements MxOps::path2_parent
+ */
+static int imap_path2_parent_wrapper(const struct MuttPath *path, struct MuttPath **parent)
+{
+  return -1;
+}
+
 // clang-format off
 /**
  * MxImapOps - IMAP Mailbox - Implements ::MxOps
@@ -2612,5 +2628,11 @@ struct MxOps MxImapOps = {
   .path_canon       = imap_path_canon,
   .path_pretty      = imap_path_pretty,
   .path_parent      = imap_path_parent,
+  .path2_canon      = imap_path2_canon_wrapper,
+  .path2_compare    = imap_path2_compare,
+  .path2_parent     = imap_path2_parent_wrapper,
+  .path2_pretty     = imap_path2_pretty,
+  .path2_probe      = imap_path2_probe,
+  .path2_tidy       = imap_path2_tidy,
 };
 // clang-format on

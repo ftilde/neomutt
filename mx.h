@@ -272,6 +272,85 @@ struct MxOps
    * @retval -1 Failure
    */
   int (*path_parent)     (char *buf, size_t buflen);
+  /**
+   * path2_canon - Canonicalise a Mailbox path
+   * @param path Path to canonicalise
+   * @retval  0 Success
+   * @retval -1 Failure
+   *
+   * **Contract**
+   * - @a path        is not NULL
+   * - @a path->orig  is not NULL
+   * - @a path->canon is NULL
+   * - @a path->type  is not #MUTT_UNKNOWN
+   * - @a path->flags has #MPATH_RESOLVED
+   * - @a path->flags has #MPATH_TIDY
+   * - @a path->flags does not have #MPATH_CANONICAL
+   */
+  int (*path2_canon)(struct MuttPath *path);
+  /**
+   * path2_compare - Compare two Maibox paths
+   * @param path1 First  path to compare
+   * @param path2 Second path to compare
+   * @retval -1 path1 precedes path2
+   * @retval  0 path1 and path2 are identical
+   * @retval  1 path2 precedes path1
+   */
+  int (*path2_compare)(struct MuttPath *path1, struct MuttPath *path2);
+  /**
+   * path2_parent - Find the parent of a Mailbox path
+   * @param path[in]    Mailbox path
+   * @param parent[out] Parent of path
+   * @retval -1 Error
+   * @retval  0 Success, parent returned
+   * @retval  1 Success, path is root, it has no parent
+   */
+  int (*path2_parent)(const struct MuttPath *path, struct MuttPath **parent);
+  /**
+   * path2_pretty - Abbreviate a Mailbox path
+   * @param path[in]    Mailbox path
+   * @param folder[in]  Folder string to abbreviate with
+   * @param pretty[out] Pretty version of path
+   * @retval  0 Success
+   * @retval -1 Failure
+   */
+  int (*path2_pretty)(const struct MuttPath *path, const char *folder, char **pretty);
+  /**
+   * path2_probe - Does this Mailbox type recognise this path?
+   * @param path Path to examine
+   * @param st   stat buffer (for local filesystems)
+   * @retval  0 Success
+   * @retval -1 Failure
+   *
+   * **Contract**
+   * - @a path        is not NULL
+   * - @a path->orig  is not NULL
+   * - @a path->canon is NULL
+   * - @a path->type  is #MUTT_UNKNOWN
+   * - @a path->flags has #MPATH_RESOLVED
+   * - @a path->flags has #MPATH_TIDY
+   * - @a path->flags does not have #MPATH_CANONICAL
+   * - @a st          is not NULL if MxOps::is_local is set
+   *
+   * @note The Mailbox type is set inside the Path
+   */
+  int (*path2_probe)(struct MuttPath *path, const struct stat *st);
+  /**
+   * path2_tidy - Tidy a Mailbox path
+   * @param path Path to tidy
+   * @retval  0 Success
+   * @retval -1 Failure
+   *
+   * **Contract**
+   * - @a path        is not NULL
+   * - @a path->orig  is not NULL
+   * - @a path->canon is NULL
+   * - @a path->type  is not #MUTT_UNKNOWN
+   * - @a path->flags has #MPATH_RESOLVED
+   * - @a path->flags does not have #MPATH_TIDY
+   * - @a path->flags does not have #MPATH_CANONICAL
+   */
+  int (*path2_tidy)(struct MuttPath *path);
 };
 
 /* Wrappers for the Mailbox API, see MxOps */
@@ -307,5 +386,12 @@ int                 mx_check_empty      (const char *path);
 void                mx_fastclose_mailbox(struct Mailbox *m);
 const struct MxOps *mx_get_ops          (enum MailboxType magic);
 bool                mx_tags_is_supported(struct Mailbox *m);
+
+int              mx_path2_canon  (struct MuttPath *path);
+int              mx_path2_compare(struct MuttPath *path1, struct MuttPath *path2);
+int              mx_path2_parent (const struct MuttPath *path, struct MuttPath **parent);
+int              mx_path2_pretty (const struct MuttPath *path, const char *folder, char **pretty);
+enum MailboxType mx_path2_probe  (struct MuttPath *path);
+int              mx_path2_resolve(struct MuttPath *path);
 
 #endif /* MUTT_MX_H */

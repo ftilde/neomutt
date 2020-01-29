@@ -27,11 +27,15 @@
 #include <stdbool.h>
 #include <time.h>
 #include "mutt/lib.h"
+#include "core/lib.h"
 #include "conn/lib.h"
 
 struct Email;
 struct Mailbox;
+struct MuttPath;
 struct Progress;
+struct stat;
+
 
 #define POP_PORT 110
 #define POP_SSL_PORT 995
@@ -146,5 +150,13 @@ void pop_logout(struct Mailbox *m);
 struct PopAccountData *pop_adata_get(struct Mailbox *m);
 struct PopEmailData *pop_edata_get(struct Email *e);
 const char *pop_get_field(enum ConnAccountField field);
+
+/* path.c */
+int              pop_path2_canon  (struct MuttPath *path);
+int              pop_path2_compare(struct MuttPath *path1, struct MuttPath *path2);
+int              pop_path2_parent (const struct MuttPath *path, struct MuttPath **parent);
+int              pop_path2_pretty (const struct MuttPath *path, const char *folder, char **pretty);
+enum MailboxType pop_path2_probe  (struct MuttPath *path, const struct stat *st);
+int              pop_path2_tidy   (struct MuttPath *path);
 
 #endif /* MUTT_POP_POP_PRIVATE_H */

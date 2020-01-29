@@ -45,6 +45,7 @@ copy.c
 core/account.c
 core/mailbox.c
 core/neomutt.c
+core/path.c
 debug/backtrace.c
 debug/parse_test.c
 edit.c
@@ -98,6 +99,7 @@ imap/browse.c
 imap/command.c
 imap/imap.c
 imap/message.c
+imap/path.c
 imap/utf7.c
 imap/util.c
 index.c
@@ -106,9 +108,11 @@ keymap.c
 mailcap.c
 maildir/maildir.c
 maildir/mh.c
+maildir/path.c
 maildir/shared.c
 main.c
 mbox/mbox.c
+mbox/path.c
 menu.c
 monitor.c
 mutt/base64.c
@@ -151,6 +155,7 @@ mutt_socket.c
 mutt_thread.c
 mutt_zstrm.c
 mx.c
+mx_path.c
 myvar.c
 ncrypt/crypt.c
 ncrypt/cryptglue.c
@@ -172,12 +177,15 @@ nntp/browse.c
 nntp/complete.c
 nntp/newsrc.c
 nntp/nntp.c
+nntp/path.c
 notmuch/mutt_notmuch.c
 notmuch/nm_db.c
+notmuch/path.c
 opcodes.h
 pager.c
 pattern.c
 pgpewrap.c
+pop/path.c
 pop/pop.c
 pop/pop_auth.c
 pop/pop_lib.c

@@ -41,6 +41,7 @@
  * | imap/browse.c     | @subpage imap_browse     |
  * | imap/command.c    | @subpage imap_command    |
  * | imap/message.c    | @subpage imap_message    |
+ * | imap/path.c       | @subpage imap_path       |
  * | imap/utf7.c       | @subpage imap_utf7       |
  * | imap/util.c       | @subpage imap_util       |
  */
@@ -58,6 +59,7 @@ struct BrowserState;
 struct Buffer;
 struct ConnAccount;
 struct EmailList;
+struct MuttPath;
 struct PatternList;
 struct stat;
 

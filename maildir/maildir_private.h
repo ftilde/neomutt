@@ -28,12 +28,14 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <time.h>
+#include "core/lib.h"
 
 struct Account;
 struct Buffer;
 struct Email;
 struct Mailbox;
 struct Message;
+struct MuttPath;
 struct Progress;
 
 /**
@@ -109,5 +111,13 @@ bool                    mh_valid_message       (const char *s);
 int mh_sync_message(struct Mailbox *m, int msgno);
 int maildir_sync_message(struct Mailbox *m, int msgno);
 int mh_rewrite_message(struct Mailbox *m, int msgno);
+
+int              maildir_path2_canon  (struct MuttPath *path);
+int              maildir_path2_compare(struct MuttPath *path1, struct MuttPath *path2);
+int              maildir_path2_parent (const struct MuttPath *path, struct MuttPath **parent);
+int              maildir_path2_pretty (const struct MuttPath *path, const char *folder, char **pretty);
+enum MailboxType maildir_path2_probe  (struct MuttPath *path, const struct stat *st);
+int              maildir_path2_tidy   (struct MuttPath *path);
+enum MailboxType mh_path2_probe       (struct MuttPath *path, const struct stat *st);
 
 #endif /* MUTT_MAILDIR_MAILDIR_PRIVATE_H */

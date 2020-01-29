@@ -1300,5 +1300,11 @@ struct MxOps MxPopOps = {
   .path_canon       = pop_path_canon,
   .path_pretty      = pop_path_pretty,
   .path_parent      = pop_path_parent,
+  .path2_canon      = pop_path2_canon,
+  .path2_compare    = pop_path2_compare,
+  .path2_parent     = pop_path2_parent,
+  .path2_pretty     = pop_path2_pretty,
+  .path2_probe      = pop_path2_probe,
+  .path2_tidy       = pop_path2_tidy,
 };
 // clang-format on
