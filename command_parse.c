@@ -963,7 +963,7 @@ enum CommandResult parse_mailboxes(struct Buffer *buf, struct Buffer *s,
 {
   while (MoreArgs(s))
   {
-    struct Mailbox *m = mailbox_new();
+    struct Mailbox *m = mailbox_new(NULL);
 
     if (data & MUTT_NAMED)
     {
@@ -987,12 +987,12 @@ enum CommandResult parse_mailboxes(struct Buffer *buf, struct Buffer *s,
       continue;
     }
 
-    mutt_buffer_strcpy(&m->pathbuf, buf->data);
+    mutt_str_replace(&m->path->orig, buf->data);
     /* int rc = */ mx_path_canon2(m, C_Folder);
 
     if (m->magic <= MUTT_UNKNOWN)
     {
-      mutt_error("Unknown Mailbox: %s", m->realpath);
+      mutt_error("Unknown Mailbox: %s", m->path->canon);
       mailbox_free(&m);
       return MUTT_CMD_ERROR;
     }
@@ -1008,7 +1008,7 @@ enum CommandResult parse_mailboxes(struct Buffer *buf, struct Buffer *s,
 
     if (!new_account)
     {
-      struct Mailbox *m_old = mx_mbox_find(a, m->realpath);
+      struct Mailbox *m_old = mx_mbox_find(a, m->path->canon);
       if (m_old)
       {
         if (m_old->flags == MB_HIDDEN)

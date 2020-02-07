@@ -131,7 +131,7 @@ static const char *sidebar_format_str(char *buf, size_t buflen, size_t col, int 
     return src;
 
   bool c = Context && Context->mailbox &&
-           (mutt_str_strcmp(Context->mailbox->realpath, m->realpath) == 0);
+           (mutt_str_strcmp(Context->mailbox->path->canon, m->path->canon) == 0);
 
   bool optional = (flags & MUTT_FORMAT_OPTIONAL);
 
@@ -408,7 +408,8 @@ static void update_entries_visibility(void)
 
     sbe->is_hidden = false;
 
-    if (Context && (mutt_str_strcmp(sbe->mailbox->realpath, Context->mailbox->realpath) == 0))
+    if (Context &&
+        (mutt_str_strcmp(sbe->mailbox->path->canon, Context->mailbox->path->canon) == 0))
     {
       /* Spool directories are always visible */
       continue;
@@ -903,8 +904,8 @@ static void draw_sidebar(struct MuttWindow *win, int num_rows, int num_cols, int
       col = div_width;
 
     mutt_window_move(win, row, col);
-    if (Context && Context->mailbox && (Context->mailbox->realpath[0] != '\0') &&
-        (mutt_str_strcmp(m->realpath, Context->mailbox->realpath) == 0))
+    if (Context && Context->mailbox && (Context->mailbox->path->canon[0] != '\0') &&
+        (mutt_str_strcmp(m->path->canon, Context->mailbox->path->canon) == 0))
     {
       m->msg_unread = Context->mailbox->msg_unread;
       m->msg_count = Context->mailbox->msg_count;
@@ -919,7 +920,7 @@ static void draw_sidebar(struct MuttWindow *win, int num_rows, int num_cols, int
 
     /* check whether C_Folder is a prefix of the current folder's path */
     bool maildir_is_prefix = false;
-    if ((mutt_buffer_len(&m->pathbuf) > maildirlen) &&
+    if ((mutt_str_strlen(m->path->orig) > maildirlen) &&
         (mutt_str_strncmp(C_Folder, mailbox_path(m), maildirlen) == 0) &&
         C_SidebarDelimChars && strchr(C_SidebarDelimChars, mailbox_path(m)[maildirlen]))
     {
@@ -1125,7 +1126,7 @@ void mutt_sb_set_open_mailbox(struct Mailbox *m)
 
   for (int entry = 0; entry < EntryCount; entry++)
   {
-    if (mutt_str_strcmp(Entries[entry]->mailbox->realpath, m->realpath) == 0)
+    if (mutt_str_strcmp(Entries[entry]->mailbox->path->canon, m->path->canon) == 0)
     {
       OpnIndex = entry;
       HilIndex = entry;
@@ -1168,7 +1169,7 @@ void mutt_sb_notify_mailbox(struct Mailbox *m, bool created)
     if (BotIndex < 0)
       BotIndex = EntryCount;
     if ((OpnIndex < 0) && Context &&
-        (mutt_str_strcmp(m->realpath, Context->mailbox->realpath) == 0))
+        (mutt_str_strcmp(m->path->canon, Context->mailbox->path->canon) == 0))
       OpnIndex = EntryCount;
 
     EntryCount++;
