@@ -53,33 +53,33 @@ char *C_SmtpPass; ///< Config: (smtp) Password for the SMTP server
 char *C_SmtpUser; ///< Config: (smtp) Username for the SMTP server
 
 /**
- * mutt_account_fromurl - Fill ConnAccount with information from url
+ * mutt_account_fromuri - Fill ConnAccount with information from uri
  * @param account ConnAccount to fill
- * @param url     Url to parse
+ * @param uri     Uri to parse
  * @retval  0 Success
  * @retval -1 Error
  */
-int mutt_account_fromurl(struct ConnAccount *account, const struct Url *url)
+int mutt_account_fromuri(struct ConnAccount *account, const struct Uri *uri)
 {
   /* must be present */
-  if (url->host)
-    mutt_str_strfcpy(account->host, url->host, sizeof(account->host));
+  if (uri->host)
+    mutt_str_strfcpy(account->host, uri->host, sizeof(account->host));
   else
     return -1;
 
-  if (url->user)
+  if (uri->user)
   {
-    mutt_str_strfcpy(account->user, url->user, sizeof(account->user));
+    mutt_str_strfcpy(account->user, uri->user, sizeof(account->user));
     account->flags |= MUTT_ACCT_USER;
   }
-  if (url->pass)
+  if (uri->pass)
   {
-    mutt_str_strfcpy(account->pass, url->pass, sizeof(account->pass));
+    mutt_str_strfcpy(account->pass, uri->pass, sizeof(account->pass));
     account->flags |= MUTT_ACCT_PASS;
   }
-  if (url->port)
+  if (uri->port)
   {
-    account->port = url->port;
+    account->port = uri->port;
     account->flags |= MUTT_ACCT_PORT;
   }
 
@@ -87,29 +87,29 @@ int mutt_account_fromurl(struct ConnAccount *account, const struct Url *url)
 }
 
 /**
- * mutt_account_tourl - Fill URL with info from account
+ * mutt_account_touri - Fill URI with info from account
  * @param account Source ConnAccount
- * @param url     Url to fill
+ * @param uri     Uri to fill
  *
- * The URL information is a set of pointers into account - don't free or edit
- * account until you've finished with url (make a copy of account if you need
+ * The URI information is a set of pointers into account - don't free or edit
+ * account until you've finished with uri (make a copy of account if you need
  * it for a while).
  */
-void mutt_account_tourl(struct ConnAccount *account, struct Url *url)
+void mutt_account_touri(struct ConnAccount *account, struct Uri *uri)
 {
-  url->scheme = U_UNKNOWN;
-  url->user = NULL;
-  url->pass = NULL;
-  url->port = 0;
-  url->path = NULL;
+  uri->scheme = U_UNKNOWN;
+  uri->user = NULL;
+  uri->pass = NULL;
+  uri->port = 0;
+  uri->path = NULL;
 
 #ifdef USE_IMAP
   if (account->type == MUTT_ACCT_TYPE_IMAP)
   {
     if (account->flags & MUTT_ACCT_SSL)
-      url->scheme = U_IMAPS;
+      uri->scheme = U_IMAPS;
     else
-      url->scheme = U_IMAP;
+      uri->scheme = U_IMAP;
   }
 #endif
 
@@ -117,9 +117,9 @@ void mutt_account_tourl(struct ConnAccount *account, struct Url *url)
   if (account->type == MUTT_ACCT_TYPE_POP)
   {
     if (account->flags & MUTT_ACCT_SSL)
-      url->scheme = U_POPS;
+      uri->scheme = U_POPS;
     else
-      url->scheme = U_POP;
+      uri->scheme = U_POP;
   }
 #endif
 
@@ -127,9 +127,9 @@ void mutt_account_tourl(struct ConnAccount *account, struct Url *url)
   if (account->type == MUTT_ACCT_TYPE_SMTP)
   {
     if (account->flags & MUTT_ACCT_SSL)
-      url->scheme = U_SMTPS;
+      uri->scheme = U_SMTPS;
     else
-      url->scheme = U_SMTP;
+      uri->scheme = U_SMTP;
   }
 #endif
 
@@ -137,19 +137,19 @@ void mutt_account_tourl(struct ConnAccount *account, struct Url *url)
   if (account->type == MUTT_ACCT_TYPE_NNTP)
   {
     if (account->flags & MUTT_ACCT_SSL)
-      url->scheme = U_NNTPS;
+      uri->scheme = U_NNTPS;
     else
-      url->scheme = U_NNTP;
+      uri->scheme = U_NNTP;
   }
 #endif
 
-  url->host = account->host;
+  uri->host = account->host;
   if (account->flags & MUTT_ACCT_PORT)
-    url->port = account->port;
+    uri->port = account->port;
   if (account->flags & MUTT_ACCT_USER)
-    url->user = account->user;
+    uri->user = account->user;
   if (account->flags & MUTT_ACCT_PASS)
-    url->pass = account->pass;
+    uri->pass = account->pass;
 }
 
 /**

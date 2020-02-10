@@ -808,7 +808,7 @@ int main(int argc, char *argv[], char *envp[])
 
     for (i = optind; i < argc; i++)
     {
-      if (url_check_scheme(argv[i]) == U_MAILTO)
+      if (uri_check_scheme(argv[i]) == U_MAILTO)
       {
         if (mutt_parse_mailto(e->env, &bodytext, argv[i]) < 0)
         {

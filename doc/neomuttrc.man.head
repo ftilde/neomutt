@@ -523,7 +523,7 @@ name, the list is emptied.
 .fi
 .IP
 As a security measure, NeoMutt will only add user-approved \fIheader-field\fPs
-from a \fImailto:\fP URL. This is necessary since NeoMutt will handle certain
+from a \fImailto:\fP URI. This is necessary since NeoMutt will handle certain
 \fIheader-field\fPs, such as \fBAttach\fP, in a special way. The
 \fBmailto_allow\fP and \fBunmailto_allow\fP commands allow the user to modify
 the list of approved headers.

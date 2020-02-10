@@ -87,13 +87,13 @@ struct Connection *mutt_conn_new(const struct ConnAccount *account)
 struct Connection *mutt_conn_find(const struct Connection *start,
                                   const struct ConnAccount *account)
 {
-  struct Url url = { 0 };
+  struct Uri uri = { 0 };
   char hook[1024];
 
-  /* account isn't actually modified, since url isn't either */
-  mutt_account_tourl((struct ConnAccount *) account, &url);
-  url.path = NULL;
-  url_tostring(&url, hook, sizeof(hook), 0);
+  /* account isn't actually modified, since uri isn't either */
+  mutt_account_touri((struct ConnAccount *) account, &uri);
+  uri.path = NULL;
+  uri_tostring(&uri, hook, sizeof(hook), 0);
   mutt_account_hook(hook);
 
   return mutt_conn_new(account);

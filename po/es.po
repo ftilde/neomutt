@@ -6479,7 +6479,7 @@ msgstr "Verificación de autentidad SASL falló"
 
 #: pop/pop_lib.c:78
 #, fuzzy, c-format
-msgid "Invalid POP URL: %s"
+msgid "Invalid POP URI: %s"
 msgstr "Mes inválido: %s"
 
 #: pop/pop_lib.c:232
@@ -6983,7 +6983,7 @@ msgstr "CLOSE falló"
 
 #: smtp.c:339
 #, fuzzy, c-format
-msgid "Invalid SMTP URL: %s"
+msgid "Invalid SMTP URI: %s"
 msgstr "Mes inválido: %s"
 
 #: smtp.c:618

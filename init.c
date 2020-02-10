@@ -840,9 +840,9 @@ int mutt_init(struct ConfigSet *cs, bool skip_sys_rc, struct ListHead *commands)
 #endif
 
   /* RFC2368, "4. Unsafe headers"
-   * The creator of a mailto URL can't expect the resolver of a URL to
+   * The creator of a mailto URI can't expect the resolver of a URI to
    * understand more than the "subject" and "body" headers. Clients that
-   * resolve mailto URLs into mail messages should be able to correctly
+   * resolve mailto URIs into mail messages should be able to correctly
    * create RFC822-compliant mail messages using the "subject" and "body"
    * headers.  */
   add_to_stailq(&MailToAllow, "body");

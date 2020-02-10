@@ -62,7 +62,7 @@ struct Envelope
   struct AddressList reply_to;         ///< Email's 'reply-to'
   struct AddressList mail_followup_to; ///< Email's 'mail-followup-to'
   struct AddressList x_original_to;    ///< Email's 'X-Orig-to'
-  char *list_post;                     ///< This stores a mailto URL, or nothing
+  char *list_post;                     ///< This stores a mailto URI, or nothing
   char *subject;                       ///< Email's subject
   char *real_subj;                     ///< Offset of the real subject
   char *disp_subj;                     ///< Display subject (modified copy of subject)

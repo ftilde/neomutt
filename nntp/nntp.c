@@ -2386,18 +2386,18 @@ static struct Account *nntp_ac_find(struct Account *a, const char *path)
   if (!a || (a->type != MUTT_NNTP) || !path)
     return NULL;
 
-  struct Url url = { 0 };
+  struct Uri uri = { 0 };
   char tmp[PATH_MAX];
   mutt_str_strfcpy(tmp, path, sizeof(tmp));
-  url_parse(&url, tmp);
+  uri_parse(&uri, tmp);
 
   struct ImapAccountData *adata = a->data;
   struct ConnAccount *ac = &adata->conn_account;
 
-  if (mutt_str_strcasecmp(url.host, ac->host) != 0)
+  if (mutt_str_strcasecmp(uri.host, ac->host) != 0)
     return NULL;
 
-  if (mutt_str_strcasecmp(url.user, ac->user) != 0)
+  if (mutt_str_strcasecmp(uri.user, ac->user) != 0)
     return NULL;
 
   // if (mutt_str_strcmp(path, a->mailbox->realpath) == 0)
@@ -2431,21 +2431,21 @@ static int nntp_mbox_open(struct Mailbox *m)
   void *hc = NULL;
   anum_t first, last, count = 0;
 
-  struct Url *url = url_parse(mailbox_path(m));
-  if (!url || !url->host || !url->path ||
-      !((url->scheme == U_NNTP) || (url->scheme == U_NNTPS)))
+  struct Uri *uri = uri_parse(mailbox_path(m));
+  if (!uri || !uri->host || !uri->path ||
+      !((uri->scheme == U_NNTP) || (uri->scheme == U_NNTPS)))
   {
-    url_free(&url);
+    uri_free(&uri);
     mutt_error(_("%s is an invalid newsgroup specification"), mailbox_path(m));
     return -1;
   }
 
-  group = url->path;
+  group = uri->path;
   if (group[0] == '/') /* Skip a leading '/' */
     group++;
 
-  url->path = strchr(url->path, '\0');
-  url_tostring(url, server, sizeof(server), 0);
+  uri->path = strchr(uri->path, '\0');
+  uri_tostring(uri, server, sizeof(server), 0);
 
   mutt_account_hook(m->realpath);
   struct NntpAccountData *adata = m->account->adata;
@@ -2458,7 +2458,7 @@ static int nntp_mbox_open(struct Mailbox *m)
 
   if (!adata)
   {
-    url_free(&url);
+    uri_free(&uri);
     return -1;
   }
   CurrentNewsSrv = adata;
@@ -2476,7 +2476,7 @@ static int nntp_mbox_open(struct Mailbox *m)
   {
     nntp_newsrc_close(adata);
     mutt_error(_("Newsgroup %s not found on the server"), group);
-    url_free(&url);
+    uri_free(&uri);
     return -1;
   }
 
@@ -2486,7 +2486,7 @@ static int nntp_mbox_open(struct Mailbox *m)
 
   /* select newsgroup */
   mutt_message(_("Selecting %s..."), group);
-  url_free(&url);
+  uri_free(&uri);
   buf[0] = '\0';
   if (nntp_query(mdata, buf, sizeof(buf)) < 0)
   {

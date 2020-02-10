@@ -416,13 +416,13 @@ THREAD_OBJS	= test/thread/clean_references.o \
 		  test/thread/thread_hash_destructor.o \
 		  test/thread/unlink_message.o
 
-URL_OBJS	= test/url/url_check_scheme.o \
-		  test/url/url_free.o \
-		  test/url/url_parse.o \
-		  test/url/url_pct_decode.o \
-		  test/url/url_pct_encode.o \
-		  test/url/url_tobuffer.o \
-		  test/url/url_tostring.o
+URI_OBJS	= test/uri/uri_check_scheme.o \
+		  test/uri/uri_free.o \
+		  test/uri/uri_parse.o \
+		  test/uri/uri_pct_decode.o \
+		  test/uri/uri_pct_encode.o \
+		  test/uri/uri_tobuffer.o \
+		  test/uri/uri_tostring.o
 
 BUILD_DIRS	= $(PWD)/test/address $(PWD)/test/attach $(PWD)/test/base64 \
 		  $(PWD)/test/body $(PWD)/test/buffer $(PWD)/test/charset \
@@ -435,7 +435,7 @@ BUILD_DIRS	= $(PWD)/test/address $(PWD)/test/attach $(PWD)/test/base64 \
 		  $(PWD)/test/parse $(PWD)/test/path $(PWD)/test/pattern \
 		  $(PWD)/test/regex $(PWD)/test/rfc2047 $(PWD)/test/rfc2231 \
 		  $(PWD)/test/signal $(PWD)/test/string $(PWD)/test/tags \
-		  $(PWD)/test/thread $(PWD)/test/url
+		  $(PWD)/test/thread $(PWD)/test/uri
 
 TEST_OBJS	= test/main.o \
 		  $(ADDRESS_OBJS) \
@@ -473,7 +473,7 @@ TEST_OBJS	= test/main.o \
 		  $(STRING_OBJS) \
 		  $(TAGS_OBJS) \
 		  $(THREAD_OBJS) \
-		  $(URL_OBJS)
+		  $(URI_OBJS)
 
 CFLAGS	+= -I$(SRCDIR)/test
 

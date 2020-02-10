@@ -1,6 +1,6 @@
 /**
  * @file
- * Parse and identify different URL schemes
+ * Parse and identify different URI schemes
  *
  * @authors
  * Copyright (C) 2000-2002,2004 Thomas Roessler <roessler@does-not-exist.org>
@@ -21,22 +21,22 @@
  */
 
 /**
- * @page email_url Parse and identify different URL schemes
+ * @page email_uri Parse and identify different URI schemes
  *
- * Parse and identify different URL schemes
+ * Parse and identify different URI schemes
  */
 
 #include "config.h"
 #include <ctype.h>
 #include <string.h>
 #include "mutt/mutt.h"
-#include "url.h"
+#include "uri.h"
 #include "mime.h"
 
 /**
- * UrlMap - Constants for URL protocols
+ * UriMap - Constants for URI protocols
  */
-static const struct Mapping UrlMap[] = {
+static const struct Mapping UriMap[] = {
   { "file", U_FILE },   { "imap", U_IMAP },     { "imaps", U_IMAPS },
   { "pop", U_POP },     { "pops", U_POPS },     { "news", U_NNTP },
   { "snews", U_NNTPS }, { "mailto", U_MAILTO }, { "notmuch", U_NOTMUCH },
@@ -44,20 +44,20 @@ static const struct Mapping UrlMap[] = {
 };
 
 /**
- * parse_query_string - Parse a URL query string
+ * parse_query_string - Parse a URI query string
  * @param list List to store the results
  * @param src  String to parse
  * @retval  0 Success
  * @retval -1 Error
  */
-static int parse_query_string(struct UrlQueryList *list, char *src)
+static int parse_query_string(struct UriQueryList *list, char *src)
 {
-  struct UrlQuery *qs = NULL;
+  struct UriQuery *qs = NULL;
   char *k = NULL, *v = NULL;
 
   while (src && *src)
   {
-    qs = mutt_mem_calloc(1, sizeof(struct UrlQuery));
+    qs = mutt_mem_calloc(1, sizeof(struct UriQuery));
     k = strchr(src, '&');
     if (k)
       *k = '\0';
@@ -67,14 +67,14 @@ static int parse_query_string(struct UrlQueryList *list, char *src)
     {
       *v = '\0';
       qs->value = v + 1;
-      if (url_pct_decode(qs->value) < 0)
+      if (uri_pct_decode(qs->value) < 0)
       {
         FREE(&qs);
         return -1;
       }
     }
     qs->name = src;
-    if (url_pct_decode(qs->name) < 0)
+    if (uri_pct_decode(qs->name) < 0)
     {
       FREE(&qs);
       return -1;
@@ -89,7 +89,7 @@ static int parse_query_string(struct UrlQueryList *list, char *src)
 }
 
 /**
- * url_pct_decode - Decode a percent-encoded string
+ * uri_pct_decode - Decode a percent-encoded string
  * @param s String to decode
  * @retval  0 Success
  * @retval -1 Error
@@ -97,7 +97,7 @@ static int parse_query_string(struct UrlQueryList *list, char *src)
  * e.g. turn "hello%20world" into "hello world"
  * The string is decoded in-place.
  */
-int url_pct_decode(char *s)
+int uri_pct_decode(char *s)
 {
   if (!s)
     return -1;
@@ -125,11 +125,11 @@ int url_pct_decode(char *s)
 }
 
 /**
- * url_check_scheme - Check the protocol of a URL
+ * uri_check_scheme - Check the protocol of a URI
  * @param s String to check
- * @retval num Url type, e.g. #U_IMAPS
+ * @retval num Uri type, e.g. #U_IMAPS
  */
-enum UrlScheme url_check_scheme(const char *s)
+enum UriScheme uri_check_scheme(const char *s)
 {
   char sbuf[256];
   char *t = NULL;
@@ -143,98 +143,98 @@ enum UrlScheme url_check_scheme(const char *s)
   mutt_str_strfcpy(sbuf, s, t - s + 1);
   mutt_str_strlower(sbuf);
 
-  i = mutt_map_get_value(sbuf, UrlMap);
+  i = mutt_map_get_value(sbuf, UriMap);
   if (i == -1)
     return U_UNKNOWN;
 
-  return (enum UrlScheme) i;
+  return (enum UriScheme) i;
 }
 
 /**
- * url_free - Free the contents of a URL
- * @param ptr Url to free
+ * uri_free - Free the contents of a URI
+ * @param ptr Uri to free
  */
-void url_free(struct Url **ptr)
+void uri_free(struct Uri **ptr)
 {
   if (!ptr || !*ptr)
     return;
 
-  struct Url *url = *ptr;
+  struct Uri *uri = *ptr;
 
-  struct UrlQuery *np = NULL;
-  struct UrlQuery *tmp = NULL;
-  STAILQ_FOREACH_SAFE(np, &url->query_strings, entries, tmp)
+  struct UriQuery *np = NULL;
+  struct UriQuery *tmp = NULL;
+  STAILQ_FOREACH_SAFE(np, &uri->query_strings, entries, tmp)
   {
-    STAILQ_REMOVE(&url->query_strings, np, UrlQuery, entries);
+    STAILQ_REMOVE(&uri->query_strings, np, UriQuery, entries);
     // Don't free 'name', 'value': they are pointers into the 'src' string
     FREE(&np);
   }
 
-  FREE(&url->src);
+  FREE(&uri->src);
   FREE(ptr);
 }
 
 /**
- * url_new - Create a Url
- * @retval ptr New Url
+ * uri_new - Create a Uri
+ * @retval ptr New Uri
  */
-struct Url *url_new(void)
+struct Uri *uri_new(void)
 {
-  struct Url *url = mutt_mem_calloc(1, sizeof(struct Url));
+  struct Uri *uri = mutt_mem_calloc(1, sizeof(struct Uri));
 
-  url->scheme = U_UNKNOWN;
-  STAILQ_INIT(&url->query_strings);
+  uri->scheme = U_UNKNOWN;
+  STAILQ_INIT(&uri->query_strings);
 
-  return url;
+  return uri;
 }
 
 /**
- * url_parse - Fill in Url
+ * uri_parse - Fill in Uri
  * @param src   String to parse
- * @retval ptr  Pointer to the parsed URL
+ * @retval ptr  Pointer to the parsed URI
  * @retval NULL String is invalid
  *
- * To free Url, caller must call url_free()
+ * To free Uri, caller must call uri_free()
  */
-struct Url *url_parse(const char *src)
+struct Uri *uri_parse(const char *src)
 {
   if (!src || !*src)
     return NULL;
 
-  enum UrlScheme scheme = url_check_scheme(src);
+  enum UriScheme scheme = uri_check_scheme(src);
   if (scheme == U_UNKNOWN)
     return NULL;
 
   char *p = NULL;
   size_t srcsize = strlen(src) + 1;
-  struct Url *url = url_new();
+  struct Uri *uri = uri_new();
 
-  url->scheme = scheme;
-  url->src = mutt_str_strdup(src);
+  uri->scheme = scheme;
+  uri->src = mutt_str_strdup(src);
 
-  char *it = url->src;
+  char *it = uri->src;
 
   it = strchr(it, ':') + 1;
 
   if (strncmp(it, "//", 2) != 0)
   {
-    url->path = it;
-    if (url_pct_decode(url->path) < 0)
+    uri->path = it;
+    if (uri_pct_decode(uri->path) < 0)
     {
-      url_free(&url);
+      uri_free(&uri);
     }
-    return url;
+    return uri;
   }
 
   it += 2;
 
   /* We have the length of the string, so let's be fancier than strrchr */
-  for (char *q = url->src + srcsize - 1; q >= it; --q)
+  for (char *q = uri->src + srcsize - 1; q >= it; --q)
   {
     if (*q == '?')
     {
       *q = '\0';
-      if (parse_query_string(&url->query_strings, q + 1) < 0)
+      if (parse_query_string(&uri->query_strings, q + 1) < 0)
       {
         goto err;
       }
@@ -242,11 +242,11 @@ struct Url *url_parse(const char *src)
     }
   }
 
-  url->path = strchr(it, '/');
-  if (url->path)
+  uri->path = strchr(it, '/');
+  if (uri->path)
   {
-    *url->path++ = '\0';
-    if (url_pct_decode(url->path) < 0)
+    *uri->path++ = '\0';
+    if (uri_pct_decode(uri->path) < 0)
       goto err;
   }
 
@@ -258,12 +258,12 @@ struct Url *url_parse(const char *src)
     if (p)
     {
       *p = '\0';
-      url->pass = p + 1;
-      if (url_pct_decode(url->pass) < 0)
+      uri->pass = p + 1;
+      if (uri_pct_decode(uri->pass) < 0)
         goto err;
     }
-    url->user = it;
-    if (url_pct_decode(url->user) < 0)
+    uri->user = it;
+    if (uri_pct_decode(uri->user) < 0)
       goto err;
     it = at + 1;
   }
@@ -285,40 +285,40 @@ struct Url *url_parse(const char *src)
     *p++ = '\0';
     if ((mutt_str_atoi(p, &num) < 0) || (num < 0) || (num > 0xffff))
       goto err;
-    url->port = (unsigned short) num;
+    uri->port = (unsigned short) num;
   }
   else
-    url->port = 0;
+    uri->port = 0;
 
   if (mutt_str_strlen(it) != 0)
   {
-    url->host = it;
-    if (url_pct_decode(url->host) < 0)
+    uri->host = it;
+    if (uri_pct_decode(uri->host) < 0)
       goto err;
   }
-  else if (url->path)
+  else if (uri->path)
   {
     /* No host are provided, we restore the / because this is absolute path */
-    url->path = it;
+    uri->path = it;
     *it++ = '/';
   }
 
-  return url;
+  return uri;
 
 err:
-  url_free(&url);
+  uri_free(&uri);
   return NULL;
 }
 
 /**
- * url_pct_encode - Percent-encode a string
+ * uri_pct_encode - Percent-encode a string
  * @param buf    Buffer for the result
  * @param buflen Length of buffer
  * @param src String to encode
  *
  * e.g. turn "hello world" into "hello%20world"
  */
-void url_pct_encode(char *buf, size_t buflen, const char *src)
+void uri_pct_encode(char *buf, size_t buflen, const char *src)
 {
   static const char *hex = "0123456789ABCDEF";
 
@@ -348,60 +348,60 @@ void url_pct_encode(char *buf, size_t buflen, const char *src)
 }
 
 /**
- * url_tobuffer - Output the URL string for a given Url object
- * @param url    Url to turn into a string
+ * uri_tobuffer - Output the URI string for a given Uri object
+ * @param uri    Uri to turn into a string
  * @param buf    Buffer for the result
  * @param flags  Flags, e.g. #U_PATH
  * @retval  0 Success
  * @retval -1 Error
  */
-int url_tobuffer(struct Url *url, struct Buffer *buf, int flags)
+int uri_tobuffer(struct Uri *uri, struct Buffer *buf, int flags)
 {
-  if (!url || !buf)
+  if (!uri || !buf)
     return -1;
-  if (url->scheme == U_UNKNOWN)
+  if (uri->scheme == U_UNKNOWN)
     return -1;
 
-  mutt_buffer_printf(buf, "%s:", mutt_map_get_name(url->scheme, UrlMap));
+  mutt_buffer_printf(buf, "%s:", mutt_map_get_name(uri->scheme, UriMap));
 
-  if (url->host)
+  if (uri->host)
   {
     if (!(flags & U_PATH))
       mutt_buffer_addstr(buf, "//");
 
-    if (url->user && (url->user[0] || !(flags & U_PATH)))
+    if (uri->user && (uri->user[0] || !(flags & U_PATH)))
     {
       char str[256];
-      url_pct_encode(str, sizeof(str), url->user);
+      uri_pct_encode(str, sizeof(str), uri->user);
       mutt_buffer_add_printf(buf, "%s@", str);
     }
 
-    if (strchr(url->host, ':'))
-      mutt_buffer_add_printf(buf, "[%s]", url->host);
+    if (strchr(uri->host, ':'))
+      mutt_buffer_add_printf(buf, "[%s]", uri->host);
     else
-      mutt_buffer_add_printf(buf, "%s", url->host);
+      mutt_buffer_add_printf(buf, "%s", uri->host);
 
-    if (url->port)
-      mutt_buffer_add_printf(buf, ":%hu/", url->port);
+    if (uri->port)
+      mutt_buffer_add_printf(buf, ":%hu/", uri->port);
     else
       mutt_buffer_addstr(buf, "/");
   }
 
-  if (url->path)
-    mutt_buffer_addstr(buf, url->path);
+  if (uri->path)
+    mutt_buffer_addstr(buf, uri->path);
 
-  if (STAILQ_FIRST(&url->query_strings))
+  if (STAILQ_FIRST(&uri->query_strings))
   {
     mutt_buffer_addstr(buf, "?");
 
     char str[256];
-    struct UrlQuery *np = NULL;
-    STAILQ_FOREACH(np, &url->query_strings, entries)
+    struct UriQuery *np = NULL;
+    STAILQ_FOREACH(np, &uri->query_strings, entries)
     {
-      url_pct_encode(str, sizeof(str), np->name);
+      uri_pct_encode(str, sizeof(str), np->name);
       mutt_buffer_addstr(buf, str);
       mutt_buffer_addstr(buf, "=");
-      url_pct_encode(str, sizeof(str), np->value);
+      uri_pct_encode(str, sizeof(str), np->value);
       mutt_buffer_addstr(buf, str);
       if (STAILQ_NEXT(np, entries))
         mutt_buffer_addstr(buf, "&");
@@ -412,22 +412,22 @@ int url_tobuffer(struct Url *url, struct Buffer *buf, int flags)
 }
 
 /**
- * url_tostring - Output the URL string for a given Url object
- * @param url    Url to turn into a string
+ * uri_tostring - Output the URI string for a given Uri object
+ * @param uri    Uri to turn into a string
  * @param dest   Buffer for the result
  * @param len    Length of buffer
  * @param flags  Flags, e.g. #U_PATH
  * @retval  0 Success
  * @retval -1 Error
  */
-int url_tostring(struct Url *url, char *dest, size_t len, int flags)
+int uri_tostring(struct Uri *uri, char *dest, size_t len, int flags)
 {
-  if (!url || !dest)
+  if (!uri || !dest)
     return -1;
 
   struct Buffer *dest_buf = mutt_buffer_pool_get();
 
-  int retval = url_tobuffer(url, dest_buf, flags);
+  int retval = uri_tobuffer(uri, dest_buf, flags);
   if (retval == 0)
     mutt_str_strfcpy(dest, mutt_b2s(dest_buf), len);
 

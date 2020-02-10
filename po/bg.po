@@ -6560,7 +6560,7 @@ msgstr "Неуспешна SASL идентификация"
 
 #: pop/pop_lib.c:78
 #, fuzzy, c-format
-msgid "Invalid POP URL: %s"
+msgid "Invalid POP URI: %s"
 msgstr "Невалиден   "
 
 #: pop/pop_lib.c:232
@@ -7062,7 +7062,7 @@ msgstr "Неуспешен SSL: %s"
 
 #: smtp.c:339
 #, fuzzy, c-format
-msgid "Invalid SMTP URL: %s"
+msgid "Invalid SMTP URI: %s"
 msgstr "Невалиден   "
 
 #: smtp.c:618

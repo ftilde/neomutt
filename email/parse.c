@@ -45,7 +45,7 @@
 #include "parameter.h"
 #include "rfc2047.h"
 #include "rfc2231.h"
-#include "url.h"
+#include "uri.h"
 #ifdef USE_AUTOCRYPT
 #include "globals.h"
 #endif
@@ -74,7 +74,7 @@ void mutt_auto_subscribe(const char *mailto)
 
   mutt_hash_insert(AutoSubscribeCache, mailto, AutoSubscribeCache);
 
-  struct Envelope *lpenv = mutt_env_new(); /* parsed envelope from the List-Post mailto: URL */
+  struct Envelope *lpenv = mutt_env_new(); /* parsed envelope from the List-Post mailto: URI */
 
   if ((mutt_parse_mailto(lpenv, NULL, mailto) != -1) && !TAILQ_EMPTY(&lpenv->to))
   {
@@ -804,8 +804,8 @@ int mutt_rfc822_parse_line(struct Envelope *env, struct Email *e, char *line,
             if (!end)
               break;
 
-            /* Take the first mailto URL */
-            if (url_check_scheme(beg) == U_MAILTO)
+            /* Take the first mailto URI */
+            if (uri_check_scheme(beg) == U_MAILTO)
             {
               FREE(&env->list_post);
               env->list_post = mutt_str_substr_dup(beg, end);
@@ -1585,7 +1585,7 @@ struct Body *mutt_rfc822_parse_message(FILE *fp, struct Body *parent)
 }
 
 /**
- * mutt_parse_mailto - Parse a mailto:// url
+ * mutt_parse_mailto - Parse a mailto:// uri
  * @param[in]  e    Envelope to fill
  * @param[out] body Body to
  * @param[in]  src  String to parse
@@ -1615,7 +1615,7 @@ int mutt_parse_mailto(struct Envelope *e, char **body, const char *src)
   if (headers)
     *headers++ = '\0';
 
-  if (url_pct_decode(tmp) < 0)
+  if (uri_pct_decode(tmp) < 0)
     goto out;
 
   mutt_addrlist_parse(&e->to, tmp);
@@ -1630,9 +1630,9 @@ int mutt_parse_mailto(struct Envelope *e, char **body, const char *src)
     if (!value || !*value)
       continue;
 
-    if (url_pct_decode(tag) < 0)
+    if (uri_pct_decode(tag) < 0)
       goto out;
-    if (url_pct_decode(value) < 0)
+    if (uri_pct_decode(value) < 0)
       goto out;
 
     /* Determine if this header field is on the allowed list.  Since NeoMutt
@@ -1641,10 +1641,10 @@ int mutt_parse_mailto(struct Envelope *e, char **body, const char *src)
      * only safe fields are allowed.
      *
      * RFC2368, "4. Unsafe headers"
-     * The user agent interpreting a mailto URL SHOULD choose not to create
+     * The user agent interpreting a mailto URI SHOULD choose not to create
      * a message if any of the headers are considered dangerous; it may also
      * choose to create a message with only a subset of the headers given in
-     * the URL.  */
+     * the URI.  */
     if (mutt_list_match(tag, &MailToAllow))
     {
       if (mutt_str_strcasecmp(tag, "body") == 0)

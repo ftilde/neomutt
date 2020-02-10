@@ -3099,7 +3099,7 @@ static int bounce_message(FILE *fp, struct Email *e, struct AddressList *to,
       return -1;
     }
 #ifdef USE_SMTP
-    if (C_SmtpUrl)
+    if (C_SmtpUri)
     {
       rc = mutt_smtp_send(env_from, to, NULL, NULL, mutt_b2s(tempfile),
                           e->content->encoding == ENC_8BIT);

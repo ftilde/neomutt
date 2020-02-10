@@ -3422,7 +3422,7 @@ msgstr "No s’ha pogut determinar el directori de l’usuari."
 msgid "Error: value '%s' is invalid for -d"
 msgstr "Error: L’argument de l’opció «-d» no és vàlid: %s"
 
-# Es refereix a l’esquema d’URL.  ivb
+# Es refereix a l’esquema d’URI.  ivb
 #: main.c:815
 msgid "Failed to parse mailto: link"
 msgstr "No s’ha pogut interpretar l’enllaç de tipus «mailto:»."
@@ -5286,7 +5286,7 @@ msgstr ""
 msgid "failed to parse notmuch query type: %s"
 msgstr ""
 
-# Es refereix a l’esquema d’URL.  ivb
+# Es refereix a l’esquema d’URI.  ivb
 #: notmuch/mutt_notmuch.c:219 notmuch/mutt_notmuch.c:1939
 #, fuzzy, c-format
 msgid "failed to parse notmuch uri: %s"
@@ -5296,7 +5296,7 @@ msgstr "No s’ha pogut interpretar l’enllaç de tipus «mailto:».\n"
 msgid "Invalid nm_query_window_timebase value (valid values are: hour, day, week, month or year)"
 msgstr ""
 
-# Es refereix a l’esquema d’URL.  ivb
+# Es refereix a l’esquema d’URI.  ivb
 #: notmuch/mutt_notmuch.c:509
 #, fuzzy, c-format
 msgid "failed to parse notmuch limit: %s"
@@ -5312,7 +5312,7 @@ msgstr "S’està enviant el missatge…"
 msgid "No more messages in the thread"
 msgstr "No hi ha cap missatge nou en aquesta vista limitada"
 
-# Es refereix a l’esquema d’URL.  ivb
+# Es refereix a l’esquema d’URI.  ivb
 #: notmuch/mutt_notmuch.c:1952
 #, fuzzy, c-format
 msgid "failed to parse limit: %s"
@@ -6730,8 +6730,8 @@ msgstr "L’autenticació ha fallat."
 
 #: pop/pop_lib.c:78
 #, c-format
-msgid "Invalid POP URL: %s"
-msgstr "L’URL de POP no és vàlid: %s"
+msgid "Invalid POP URI: %s"
+msgstr "L’URI de POP no és vàlid: %s"
 
 #: pop/pop_lib.c:232
 msgid "Unable to leave messages on server"
@@ -7248,8 +7248,8 @@ msgstr "La sessió SMTP fallat: no s’ha pogut obrir «%s»"
 
 #: smtp.c:339
 #, c-format
-msgid "Invalid SMTP URL: %s"
-msgstr "L’URL d’SMTP no és vàlid: %s"
+msgid "Invalid SMTP URI: %s"
+msgstr "L’URI d’SMTP no és vàlid: %s"
 
 #: smtp.c:618
 #, c-format

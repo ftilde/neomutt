@@ -29,7 +29,7 @@
 #include <stdint.h>
 
 struct ConnAccount;
-struct Url;
+struct Uri;
 
 /* These Config Variables are only used in mutt_account.c */
 extern char *C_ImapLogin;
@@ -63,8 +63,8 @@ typedef uint8_t MuttAccountFlags;     ///< Flags, Which ConnAccount fields are i
 #define MUTT_ACCT_PASS      (1 << 3)  ///< Password field has been set
 #define MUTT_ACCT_SSL       (1 << 4)  ///< Account uses SSL/TLS
 
-int   mutt_account_fromurl       (struct ConnAccount *account, const struct Url *url);
-void  mutt_account_tourl         (struct ConnAccount *account, struct Url *url);
+int   mutt_account_fromuri       (struct ConnAccount *account, const struct Uri *uri);
+void  mutt_account_touri         (struct ConnAccount *account, struct Uri *uri);
 int   mutt_account_getuser       (struct ConnAccount *account);
 int   mutt_account_getlogin      (struct ConnAccount *account);
 int   mutt_account_getpass       (struct ConnAccount *account);

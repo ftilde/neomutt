@@ -6358,7 +6358,7 @@ msgstr "Autentikaatio epäonnistui"
 
 #: pop/pop_lib.c:78
 #, c-format
-msgid "Invalid POP URL: %s"
+msgid "Invalid POP URI: %s"
 msgstr "Viallinen POP-verkko-osoite: %s"
 
 #: pop/pop_lib.c:232
@@ -6848,8 +6848,8 @@ msgstr "SMTP-sessio epäonnistui: ei voitu avata kohdetta %s"
 
 #: smtp.c:339
 #, c-format
-msgid "Invalid SMTP URL: %s"
-msgstr "Viallinen SMTP-URL: %s"
+msgid "Invalid SMTP URI: %s"
+msgstr "Viallinen SMTP-URI: %s"
 
 #: smtp.c:618
 #, c-format

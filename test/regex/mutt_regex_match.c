@@ -181,8 +181,8 @@ static bool test_old_implementation(void)
   }
 
   {
-    // if ((regexec(hook->regex.regex, url, 0, NULL, 0) == 0) ^ hook->regex.pat_not)
-    // if (mutt_regex_match(&hook->regex, url))
+    // if ((regexec(hook->regex.regex, uri, 0, NULL, 0) == 0) ^ hook->regex.pat_not)
+    // if (mutt_regex_match(&hook->regex, uri))
 
     struct Regex *rx = regex_new("bob", 0, &buf);
     const bool old = (regexec(rx->regex, bob_line, 0, NULL, 0) == 0) ^ rx->pat_not;

@@ -398,13 +398,13 @@
   NEOMUTT_TEST_ITEM(test_mutt_break_thread)                                    \
   NEOMUTT_TEST_ITEM(test_thread_hash_destructor)                               \
   NEOMUTT_TEST_ITEM(test_unlink_message)                                       \
-  NEOMUTT_TEST_ITEM(test_url_check_scheme)                                     \
-  NEOMUTT_TEST_ITEM(test_url_free)                                             \
-  NEOMUTT_TEST_ITEM(test_url_parse)                                            \
-  NEOMUTT_TEST_ITEM(test_url_pct_decode)                                       \
-  NEOMUTT_TEST_ITEM(test_url_pct_encode)                                       \
-  NEOMUTT_TEST_ITEM(test_url_tobuffer)                                         \
-  NEOMUTT_TEST_ITEM(test_url_tostring)                                         \
+  NEOMUTT_TEST_ITEM(test_uri_check_scheme)                                     \
+  NEOMUTT_TEST_ITEM(test_uri_free)                                             \
+  NEOMUTT_TEST_ITEM(test_uri_parse)                                            \
+  NEOMUTT_TEST_ITEM(test_uri_pct_decode)                                       \
+  NEOMUTT_TEST_ITEM(test_uri_pct_encode)                                       \
+  NEOMUTT_TEST_ITEM(test_uri_tobuffer)                                         \
+  NEOMUTT_TEST_ITEM(test_uri_tostring)                                         \
   NEOMUTT_TEST_ITEM(test_window_reflow)
 
 /******************************************************************************

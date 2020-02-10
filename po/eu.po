@@ -6509,8 +6509,8 @@ msgstr "SASL egiaztapenak huts egin du"
 
 #: pop/pop_lib.c:78
 #, fuzzy, c-format
-msgid "Invalid POP URL: %s"
-msgstr "Okerreko SMTP URLa: %s"
+msgid "Invalid POP URI: %s"
+msgstr "Okerreko SMTP URIa: %s"
 
 #: pop/pop_lib.c:232
 msgid "Unable to leave messages on server"
@@ -7008,8 +7008,8 @@ msgstr "SMTP saioak huts egin du: ezin da %s ireki"
 
 #: smtp.c:339
 #, c-format
-msgid "Invalid SMTP URL: %s"
-msgstr "Okerreko SMTP URLa: %s"
+msgid "Invalid SMTP URI: %s"
+msgstr "Okerreko SMTP URIa: %s"
 
 #: smtp.c:618
 #, c-format

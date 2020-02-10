@@ -1,6 +1,6 @@
 /**
  * @file
- * Test code for url_tobuffer()
+ * Test code for uri_tostring()
  *
  * @authors
  * Copyright (C) 2019 Richard Russon <rich@flatcap.org>
@@ -27,17 +27,17 @@
 #include "address/lib.h"
 #include "email/lib.h"
 
-void test_url_tobuffer(void)
+void test_uri_tostring(void)
 {
-  // int url_tobuffer(struct Url *u, struct Buffer *buf, int flags);
+  // int uri_tostring(struct Uri *u, char *dest, size_t len, int flags);
 
   {
-    struct Buffer buf = mutt_buffer_make(0);
-    TEST_CHECK(url_tobuffer(NULL, &buf, 0) != 0);
+    char buf[32] = { 0 };
+    TEST_CHECK(uri_tostring(NULL, buf, sizeof(buf), 0) != 0);
   }
 
   {
-    struct Url url = { 0 };
-    TEST_CHECK(url_tobuffer(&url, NULL, 0) != 0);
+    struct Uri uri = { 0 };
+    TEST_CHECK(uri_tostring(&uri, NULL, 10, 0) != 0);
   }
 }

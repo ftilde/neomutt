@@ -1359,7 +1359,7 @@ enum CommandResult parse_set(struct Buffer *buf, struct Buffer *s,
             if (!(he->type & DT_MAILBOX) && (scratchlen != 0))
             {
               if ((mutt_b2s(&scratch)[scratchlen - 1] != '|') && /* not a command */
-                  (url_check_scheme(mutt_b2s(&scratch)) == U_UNKNOWN)) /* probably a local file */
+                  (uri_check_scheme(mutt_b2s(&scratch)) == U_UNKNOWN)) /* probably a local file */
               {
                 struct ListNode *np = STAILQ_FIRST(&MuttrcStack);
                 if (mutt_path_to_absolute(scratch.data, np ? NONULL(np->data) : "./"))

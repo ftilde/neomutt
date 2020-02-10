@@ -514,7 +514,7 @@ static size_t longest_common_prefix(char *dest, const char *src, size_t start, s
  * @retval  0 Success
  * @retval -1 Failure
  *
- * look for IMAP URLs to complete from defined mailboxes. Could be extended to
+ * look for IMAP URIs to complete from defined mailboxes. Could be extended to
  * complete over open connections and account/folder hooks too.
  */
 static int complete_hosts(char *buf, size_t buflen)
@@ -544,26 +544,26 @@ static int complete_hosts(char *buf, size_t buflen)
 #if 0
   TAILQ_FOREACH(conn, mutt_socket_head(), entries)
   {
-    struct Url url = { 0 };
-    char urlstr[1024];
+    struct Uri uri = { 0 };
+    char uristr[1024];
 
     if (conn->account.type != MUTT_ACCT_TYPE_IMAP)
       continue;
 
-    mutt_account_tourl(&conn->account, &url);
+    mutt_account_touri(&conn->account, &uri);
     /* FIXME: how to handle multiple users on the same host? */
-    url.user = NULL;
-    url.path = NULL;
-    url_tostring(&url, urlstr, sizeof(urlstr), 0);
-    if (mutt_str_strncmp(buf, urlstr, matchlen) == 0)
+    uri.user = NULL;
+    uri.path = NULL;
+    uri_tostring(&uri, uristr, sizeof(uristr), 0);
+    if (mutt_str_strncmp(buf, uristr, matchlen) == 0)
     {
       if (rc)
       {
-        mutt_str_strfcpy(buf, urlstr, buflen);
+        mutt_str_strfcpy(buf, uristr, buflen);
         rc = 0;
       }
       else
-        longest_common_prefix(buf, urlstr, matchlen, buflen);
+        longest_common_prefix(buf, uristr, matchlen, buflen);
     }
   }
 #endif
@@ -650,11 +650,11 @@ int imap_delete_mailbox(struct Mailbox *m, char *path)
 {
   char buf[PATH_MAX + 7];
   char mbox[PATH_MAX];
-  struct Url *url = url_parse(path);
+  struct Uri *uri = uri_parse(path);
 
   struct ImapAccountData *adata = imap_adata_get(m);
-  imap_munge_mbox_name(adata->unicode, mbox, sizeof(mbox), url->path);
-  url_free(&url);
+  imap_munge_mbox_name(adata->unicode, mbox, sizeof(mbox), uri->path);
+  uri_free(&uri);
   snprintf(buf, sizeof(buf), "DELETE %s", mbox);
   if (imap_exec(m->account->adata, buf, IMAP_CMD_NO_FLAGS) != IMAP_EXEC_SUCCESS)
     return -1;
@@ -1856,18 +1856,18 @@ static struct Account *imap_ac_find(struct Account *a, const char *path)
   if (!a || (a->magic != MUTT_IMAP) || !path)
     return NULL;
 
-  struct Url *url = url_parse(path);
+  struct Uri *uri = uri_parse(path);
 
   struct ImapAccountData *adata = a->adata;
   struct ConnAccount *ac = &adata->conn_account;
 
-  if ((mutt_str_strcasecmp(url->host, ac->host) != 0) ||
-      (mutt_str_strcasecmp(url->user, ac->user) != 0))
+  if ((mutt_str_strcasecmp(uri->host, ac->host) != 0) ||
+      (mutt_str_strcasecmp(uri->user, ac->user) != 0))
   {
     a = NULL;
   }
 
-  url_free(&url);
+  uri_free(&uri);
   return a;
 }
 
@@ -1912,8 +1912,8 @@ static int imap_ac_add(struct Account *a, struct Mailbox *m)
 
   if (!m->mdata)
   {
-    struct Url *url = url_parse(mailbox_path(m));
-    struct ImapMboxData *mdata = imap_mdata_new(adata, url->path);
+    struct Uri *uri = uri_parse(mailbox_path(m));
+    struct ImapMboxData *mdata = imap_mdata_new(adata, uri->path);
 
     /* fixup path and realpath, mainly to replace / by /INBOX */
     char buf[1024];
@@ -1923,7 +1923,7 @@ static int imap_ac_add(struct Account *a, struct Mailbox *m)
 
     m->mdata = mdata;
     m->free_mdata = imap_mdata_free;
-    url_free(&url);
+    uri_free(&uri);
   }
   return 0;
 }
@@ -2532,18 +2532,18 @@ int imap_path_canon(char *buf, size_t buflen)
   if (!buf)
     return -1;
 
-  struct Url *url = url_parse(buf);
-  if (!url)
+  struct Uri *uri = uri_parse(buf);
+  if (!uri)
     return 0;
 
   char tmp[PATH_MAX];
   char tmp2[PATH_MAX];
 
-  imap_fix_path('\0', url->path, tmp, sizeof(tmp));
-  url->path = tmp;
-  url_tostring(url, tmp2, sizeof(tmp2), 0);
+  imap_fix_path('\0', uri->path, tmp, sizeof(tmp));
+  uri->path = tmp;
+  uri_tostring(uri, tmp2, sizeof(tmp2), 0);
   mutt_str_strfcpy(buf, tmp2, buflen);
-  url_free(&url);
+  uri_free(&uri);
 
   return 0;
 }

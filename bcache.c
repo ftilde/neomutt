@@ -62,19 +62,19 @@ struct BodyCache
 static int bcache_path(struct ConnAccount *account, const char *mailbox, struct BodyCache *bcache)
 {
   char host[256];
-  struct Url url = { 0 };
+  struct Uri uri = { 0 };
 
   if (!account || !C_MessageCachedir || !bcache)
     return -1;
 
-  /* make up a Url we can turn into a string */
-  mutt_account_tourl(account, &url);
-  /* mutt_account_tourl() just sets up some pointers;
+  /* make up a Uri we can turn into a string */
+  mutt_account_touri(account, &uri);
+  /* mutt_account_touri() just sets up some pointers;
    * if this ever changes, we have a memleak here */
-  url.path = NULL;
-  if (url_tostring(&url, host, sizeof(host), U_PATH) < 0)
+  uri.path = NULL;
+  if (uri_tostring(&uri, host, sizeof(host), U_PATH) < 0)
   {
-    mutt_debug(LL_DEBUG1, "URL to string failed\n");
+    mutt_debug(LL_DEBUG1, "URI to string failed\n");
     return -1;
   }
 

@@ -1,6 +1,6 @@
 /**
  * @file
- * Test code for url_pct_decode()
+ * Test code for uri_tobuffer()
  *
  * @authors
  * Copyright (C) 2019 Richard Russon <rich@flatcap.org>
@@ -27,11 +27,17 @@
 #include "address/lib.h"
 #include "email/lib.h"
 
-void test_url_pct_decode(void)
+void test_uri_tobuffer(void)
 {
-  // int url_pct_decode(char *s);
+  // int uri_tobuffer(struct Uri *u, struct Buffer *buf, int flags);
 
   {
-    TEST_CHECK(url_pct_decode(NULL) != 0);
+    struct Buffer buf = mutt_buffer_make(0);
+    TEST_CHECK(uri_tobuffer(NULL, &buf, 0) != 0);
+  }
+
+  {
+    struct Uri uri = { 0 };
+    TEST_CHECK(uri_tobuffer(&uri, NULL, 0) != 0);
   }
 }

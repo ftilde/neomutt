@@ -317,7 +317,7 @@ void imap_get_parent_path(const char *path, char *buf, size_t buflen)
   /* Gets the parent mbox in mbox */
   imap_get_parent(mdata->name, adata->delim, mbox, sizeof(mbox));
 
-  /* Returns a fully qualified IMAP url */
+  /* Returns a fully qualified IMAP uri */
   imap_qualify_path(buf, buflen, &adata->conn_account, mbox);
   imap_mdata_free((void *) &mdata);
 }
@@ -337,7 +337,7 @@ void imap_clean_path(char *path, size_t plen)
   if (imap_adata_find(path, &adata, &mdata) < 0)
     return;
 
-  /* Returns a fully qualified IMAP url */
+  /* Returns a fully qualified IMAP uri */
   imap_qualify_path(path, plen, &adata->conn_account, mdata->name);
   imap_mdata_free((void *) &mdata);
 }
@@ -438,10 +438,10 @@ header_cache_t *imap_hcache_open(struct ImapAccountData *adata, struct ImapMboxD
   if ((len > 3) && (strcmp(mutt_b2s(mbox) + len - 3, "/..") == 0))
     goto cleanup;
 
-  struct Url url = { 0 };
-  mutt_account_tourl(&adata->conn->account, &url);
-  url.path = mbox->data;
-  url_tobuffer(&url, cachepath, U_PATH);
+  struct Uri uri = { 0 };
+  mutt_account_touri(&adata->conn->account, &uri);
+  uri.path = mbox->data;
+  uri_tobuffer(&uri, cachepath, U_PATH);
 
   hc = mutt_hcache_open(C_HeaderCache, mutt_b2s(cachepath), imap_hcache_namer);
 
@@ -628,28 +628,28 @@ int imap_parse_path(const char *path, struct ConnAccount *account, char *mailbox
   account->port = ImapPort;
   account->type = MUTT_ACCT_TYPE_IMAP;
 
-  struct Url *url = url_parse(path);
-  if (!url)
+  struct Uri *uri = uri_parse(path);
+  if (!uri)
     return -1;
 
-  if ((url->scheme != U_IMAP) && (url->scheme != U_IMAPS))
+  if ((uri->scheme != U_IMAP) && (uri->scheme != U_IMAPS))
   {
-    url_free(&url);
+    uri_free(&uri);
     return -1;
   }
 
-  if ((mutt_account_fromurl(account, url) < 0) || (account->host[0] == '\0'))
+  if ((mutt_account_fromuri(account, uri) < 0) || (account->host[0] == '\0'))
   {
-    url_free(&url);
+    uri_free(&uri);
     return -1;
   }
 
-  if (url->scheme == U_IMAPS)
+  if (uri->scheme == U_IMAPS)
     account->flags |= MUTT_ACCT_SSL;
 
-  mutt_str_strfcpy(mailbox, url->path, mailboxlen);
+  mutt_str_strfcpy(mailbox, uri->path, mailboxlen);
 
-  url_free(&url);
+  uri_free(&uri);
 
   if ((account->flags & MUTT_ACCT_SSL) && !(account->flags & MUTT_ACCT_PORT))
     account->port = ImapsPort;
@@ -708,7 +708,7 @@ int imap_mxcmp(const char *mx1, const char *mx2)
 void imap_pretty_mailbox(char *path, size_t pathlen, const char *folder)
 {
   struct ConnAccount target_conn_account, home_conn_account;
-  struct Url url = { 0 };
+  struct Uri uri = { 0 };
   char *delim = NULL;
   int tlen;
   int hlen = 0;
@@ -755,9 +755,9 @@ void imap_pretty_mailbox(char *path, size_t pathlen, const char *folder)
   }
 
 fallback:
-  mutt_account_tourl(&target_conn_account, &url);
-  url.path = target_mailbox;
-  url_tostring(&url, path, pathlen, 0);
+  mutt_account_touri(&target_conn_account, &uri);
+  uri.path = target_mailbox;
+  uri_tostring(&uri, path, pathlen, 0);
 }
 
 /**
@@ -943,10 +943,10 @@ char *imap_next_word(char *s)
  */
 void imap_qualify_path(char *buf, size_t buflen, struct ConnAccount *conn_account, char *path)
 {
-  struct Url url = { 0 };
-  mutt_account_tourl(conn_account, &url);
-  url.path = path;
-  url_tostring(&url, buf, buflen, 0);
+  struct Uri uri = { 0 };
+  mutt_account_touri(conn_account, &uri);
+  uri.path = path;
+  uri_tostring(&uri, buf, buflen, 0);
 }
 
 /**

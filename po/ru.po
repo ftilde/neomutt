@@ -6443,8 +6443,8 @@ msgstr "Ошибка SASL-аутентификации"
 
 #: pop/pop_lib.c:78
 #, c-format
-msgid "Invalid POP URL: %s"
-msgstr "Неверный POP URL: %s"
+msgid "Invalid POP URI: %s"
+msgstr "Неверный POP URI: %s"
 
 #: pop/pop_lib.c:232
 msgid "Unable to leave messages on server"
@@ -6940,8 +6940,8 @@ msgstr "Ошибка SMTP сессии: не удалось открыть %s"
 
 #: smtp.c:339
 #, c-format
-msgid "Invalid SMTP URL: %s"
-msgstr "Неверный SMTP URL: %s"
+msgid "Invalid SMTP URI: %s"
+msgstr "Неверный SMTP URI: %s"
 
 #: smtp.c:618
 #, c-format

@@ -6486,8 +6486,8 @@ msgstr "Autenticazione SASL fallita"
 
 #: pop/pop_lib.c:78
 #, c-format
-msgid "Invalid POP URL: %s"
-msgstr "URL del server POP non valido: %s"
+msgid "Invalid POP URI: %s"
+msgstr "URI del server POP non valido: %s"
 
 #: pop/pop_lib.c:232
 msgid "Unable to leave messages on server"
@@ -6985,8 +6985,8 @@ msgstr "Sessione SMTP fallita: impossibile aprire %s"
 
 #: smtp.c:339
 #, c-format
-msgid "Invalid SMTP URL: %s"
-msgstr "URL del server SMTP non valido: %s"
+msgid "Invalid SMTP URI: %s"
+msgstr "URI del server SMTP non valido: %s"
 
 #: smtp.c:618
 #, c-format

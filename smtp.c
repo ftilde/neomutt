@@ -320,7 +320,7 @@ static bool addresses_use_unicode(const struct AddressList *al)
 }
 
 /**
- * smtp_fill_account - Create ConnAccount object from SMTP Url
+ * smtp_fill_account - Create ConnAccount object from SMTP Uri
  * @param account ConnAccount to populate
  * @retval  0 Success
  * @retval -1 Error
@@ -331,16 +331,16 @@ static int smtp_fill_account(struct ConnAccount *account)
   account->port = 0;
   account->type = MUTT_ACCT_TYPE_SMTP;
 
-  struct Url *url = url_parse(C_SmtpUrl);
-  if (!url || ((url->scheme != U_SMTP) && (url->scheme != U_SMTPS)) ||
-      !url->host || (mutt_account_fromurl(account, url) < 0))
+  struct Uri *uri = uri_parse(C_SmtpUri);
+  if (!uri || ((uri->scheme != U_SMTP) && (uri->scheme != U_SMTPS)) ||
+      !uri->host || (mutt_account_fromuri(account, uri) < 0))
   {
-    url_free(&url);
-    mutt_error(_("Invalid SMTP URL: %s"), C_SmtpUrl);
+    uri_free(&uri);
+    mutt_error(_("Invalid SMTP URI: %s"), C_SmtpUri);
     return -1;
   }
 
-  if (url->scheme == U_SMTPS)
+  if (uri->scheme == U_SMTPS)
     account->flags |= MUTT_ACCT_SSL;
 
   if (account->port == 0)
@@ -363,7 +363,7 @@ static int smtp_fill_account(struct ConnAccount *account)
     }
   }
 
-  url_free(&url);
+  uri_free(&uri);
   return 0;
 }
 

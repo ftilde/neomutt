@@ -1941,11 +1941,11 @@ struct ConfigDef MuttVars[] = {
   ** by NeoMutt.  Otherwise, NeoMutt posts article using current connection to
   ** news server.  The following printf-style sequence is understood:
   ** .dl
-  ** .dt %a .dd account url
+  ** .dt %a .dd account uri
   ** .dt %p .dd port
   ** .dt %P .dd port if specified
   ** .dt %s .dd news server name
-  ** .dt %S .dd url schema
+  ** .dt %S .dd uri schema
   ** .dt %u .dd username
   ** .de
   ** .pp
@@ -2341,11 +2341,11 @@ struct ConfigDef MuttVars[] = {
   ** is understood:
   ** .dl
   ** .dt \fBExpando\fP .dd \fBDescription\fP .dd \fBExample\fP
-  ** .dt %a .dd Account url       .dd \fCnews:news.gmane.org\fP
+  ** .dt %a .dd Account uri       .dd \fCnews:news.gmane.org\fP
   ** .dt %p .dd Port              .dd \fC119\fP
   ** .dt %P .dd Port if specified .dd \fC10119\fP
   ** .dt %s .dd News server name  .dd \fCnews.gmane.org\fP
-  ** .dt %S .dd Url schema        .dd \fCnews\fP
+  ** .dt %S .dd Uri schema        .dd \fCnews\fP
   ** .dt %u .dd Username          .dd \fCusername\fP
   ** .de
   */
@@ -4180,7 +4180,7 @@ struct ConfigDef MuttVars[] = {
   ** .pp
   ** Specifies the password for your SMTP account.  If \fIunset\fP, NeoMutt will
   ** prompt you for your password when you first send mail via SMTP.
-  ** See $$smtp_url to configure NeoMutt to send mail via SMTP.
+  ** See $$smtp_uri to configure NeoMutt to send mail via SMTP.
   ** .pp
   ** \fBWarning\fP: you should only use this option when you are on a
   ** fairly secure machine, because the superuser can read your neomuttrc even
@@ -4193,11 +4193,11 @@ struct ConfigDef MuttVars[] = {
   ** .pp
   ** This variable defaults to your user name on the local machine.
   */
-  { "smtp_url", DT_STRING|DT_SENSITIVE, &C_SmtpUrl, 0 },
+  { "smtp_uri", DT_STRING|DT_SENSITIVE, &C_SmtpUri, 0 },
   /*
   ** .pp
   ** Defines the SMTP smarthost where sent messages should relayed for
-  ** delivery. This should take the form of an SMTP URL, e.g.:
+  ** delivery. This should take the form of an SMTP URI, e.g.:
   ** .ts
   ** smtp[s]://[user[:pass]@]host[:port]
   ** .te
@@ -4444,7 +4444,7 @@ struct ConfigDef MuttVars[] = {
   ** .pp
   ** If \fIset\fP (the default), NeoMutt will not automatically accept a server
   ** certificate whose host name does not match the host used in your folder
-  ** URL. You should only unset this for particular known hosts, using
+  ** URI. You should only unset this for particular known hosts, using
   ** the \fC$<account-hook>\fP function.
   */
 #ifdef USE_SSL_OPENSSL
@@ -4878,7 +4878,7 @@ struct ConfigDef MuttVars[] = {
   ** leave this unset unless you have a particular need for the header
   ** to be in the sent message.
   ** .pp
-  ** If mutt is set to deliver directly via SMTP(see $$smtp_url),
+  ** If mutt is set to deliver directly via SMTP(see $$smtp_uri),
   ** this option does nothing: mutt will never write out the ``Bcc:''
   ** header in this case.
   ** .pp
@@ -4936,6 +4936,7 @@ struct ConfigDef MuttVars[] = {
   { "quote_regexp",           DT_SYNONYM, NULL, IP "quote_regex",              },
   { "reply_regexp",           DT_SYNONYM, NULL, IP "reply_regex",              },
   { "smime_self_encrypt_as",  DT_SYNONYM, NULL, IP "smime_default_key",        },
+  { "smtp_url",               DT_SYNONYM, NULL, IP "smtp_uri",                 },
   { "xterm_icon",             DT_SYNONYM, NULL, IP "ts_icon_format",           },
   { "xterm_set_titles",       DT_SYNONYM, NULL, IP "ts_enabled",               },
   { "xterm_title",            DT_SYNONYM, NULL, IP "ts_status_format",         },

@@ -6446,8 +6446,8 @@ msgstr "SASL-authenticatie is mislukt"
 
 #: pop/pop_lib.c:78
 #, c-format
-msgid "Invalid POP URL: %s"
-msgstr "Ongeldig POP-URL: %s"
+msgid "Invalid POP URI: %s"
+msgstr "Ongeldig POP-URI: %s"
 
 #: pop/pop_lib.c:232
 msgid "Unable to leave messages on server"
@@ -6943,8 +6943,8 @@ msgstr "SMTP-sessie is mislukt: kan %s niet openen"
 
 #: smtp.c:339
 #, c-format
-msgid "Invalid SMTP URL: %s"
-msgstr "Ongeldig SMTP-URL: %s"
+msgid "Invalid SMTP URI: %s"
+msgstr "Ongeldig SMTP-URI: %s"
 
 #: smtp.c:618
 #, c-format

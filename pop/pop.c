@@ -68,7 +68,7 @@ struct BodyCache;
 /* These Config Variables are only used in pop/pop.c */
 short C_PopCheckinterval; ///< Config: (pop) Interval between checks for new mail
 unsigned char C_PopDelete; ///< Config: (pop) After downloading POP messages, delete them on the server
-char *C_PopHost; ///< Config: (pop) Url of the POP server
+char *C_PopHost; ///< Config: (pop) Uri of the POP server
 bool C_PopLast;  ///< Config: (pop) Use the 'LAST' command to fetch new mail
 
 #define HC_FNAME "neomutt" /* filename for hcache as POP lacks paths */
@@ -358,12 +358,12 @@ static header_cache_t *pop_hcache_open(struct PopAccountData *adata, const char 
   if (!adata || !adata->conn)
     return mutt_hcache_open(C_HeaderCache, path, NULL);
 
-  struct Url url = { 0 };
+  struct Uri uri = { 0 };
   char p[1024];
 
-  mutt_account_tourl(&adata->conn->account, &url);
-  url.path = HC_FNAME;
-  url_tostring(&url, p, sizeof(p), U_PATH);
+  mutt_account_touri(&adata->conn->account, &uri);
+  uri.path = HC_FNAME;
+  uri_tostring(&uri, p, sizeof(p), U_PATH);
   return mutt_hcache_open(C_HeaderCache, p, pop_hcache_namer);
 }
 #endif
@@ -581,16 +581,16 @@ void pop_fetch_mail(void)
   struct ConnAccount acct;
 
   char *p = mutt_mem_calloc(strlen(C_PopHost) + 7, sizeof(char));
-  char *url = p;
-  if (url_check_scheme(C_PopHost) == U_UNKNOWN)
+  char *uri = p;
+  if (uri_check_scheme(C_PopHost) == U_UNKNOWN)
   {
-    strcpy(url, "pop://");
-    p = strchr(url, '\0');
+    strcpy(uri, "pop://");
+    p = strchr(uri, '\0');
   }
   strcpy(p, C_PopHost);
 
-  ret = pop_parse_path(url, &acct);
-  FREE(&url);
+  ret = pop_parse_path(uri, &acct);
+  FREE(&uri);
   if (ret)
   {
     mutt_error(_("%s is an invalid POP path"), C_PopHost);
@@ -752,20 +752,20 @@ static struct Account *pop_ac_find(struct Account *a, const char *path)
   if (!a || (a->magic != MUTT_POP) || !path)
     return NULL;
 
-  struct Url *url = url_parse(path);
-  if (!url)
+  struct Uri *uri = uri_parse(path);
+  if (!uri)
     return NULL;
 
   struct PopAccountData *adata = a->adata;
   struct ConnAccount *ac = &adata->conn_account;
 
-  if ((mutt_str_strcasecmp(url->host, ac->host) != 0) ||
-      (mutt_str_strcasecmp(url->user, ac->user) != 0))
+  if ((mutt_str_strcasecmp(uri->host, ac->host) != 0) ||
+      (mutt_str_strcasecmp(uri->user, ac->user) != 0))
   {
     a = NULL;
   }
 
-  url_free(&url);
+  uri_free(&uri);
   return a;
 }
 
@@ -784,24 +784,24 @@ static int pop_ac_add(struct Account *a, struct Mailbox *m)
   a->adata = adata;
   a->free_adata = pop_adata_free;
 
-  struct Url *url = url_parse(mailbox_path(m));
-  if (!url)
+  struct Uri *uri = uri_parse(mailbox_path(m));
+  if (!uri)
     return 0;
 
-  mutt_str_strfcpy(adata->conn_account.user, url->user,
+  mutt_str_strfcpy(adata->conn_account.user, uri->user,
                    sizeof(adata->conn_account.user));
-  mutt_str_strfcpy(adata->conn_account.pass, url->pass,
+  mutt_str_strfcpy(adata->conn_account.pass, uri->pass,
                    sizeof(adata->conn_account.pass));
-  mutt_str_strfcpy(adata->conn_account.host, url->host,
+  mutt_str_strfcpy(adata->conn_account.host, uri->host,
                    sizeof(adata->conn_account.host));
-  adata->conn_account.port = url->port;
+  adata->conn_account.port = uri->port;
   adata->conn_account.type = MUTT_ACCT_TYPE_POP;
 
   if (adata->conn_account.user[0] != '\0')
     adata->conn_account.flags |= MUTT_ACCT_USER;
   if (adata->conn_account.pass[0] != '\0')
     adata->conn_account.flags |= MUTT_ACCT_PASS;
-  url_free(&url);
+  uri_free(&uri);
 
   return 0;
 }
@@ -818,7 +818,7 @@ static int pop_mbox_open(struct Mailbox *m)
 
   char buf[PATH_MAX];
   struct ConnAccount acct = { { 0 } };
-  struct Url url = { 0 };
+  struct Uri uri = { 0 };
 
   if (pop_parse_path(mailbox_path(m), &acct))
   {
@@ -826,9 +826,9 @@ static int pop_mbox_open(struct Mailbox *m)
     return -1;
   }
 
-  mutt_account_tourl(&acct, &url);
-  url.path = NULL;
-  url_tostring(&url, buf, sizeof(buf), 0);
+  mutt_account_touri(&acct, &uri);
+  uri.path = NULL;
+  uri_tostring(&uri, buf, sizeof(buf), 0);
 
   mutt_buffer_strcpy(&m->pathbuf, buf);
   mutt_str_replace(&m->realpath, mailbox_path(m));

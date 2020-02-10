@@ -6543,7 +6543,7 @@ msgstr "Prihlasovanie zlyhalo."
 
 #: pop/pop_lib.c:78
 #, fuzzy, c-format
-msgid "Invalid POP URL: %s"
+msgid "Invalid POP URI: %s"
 msgstr "Neplatný mesiac: %s"
 
 #: pop/pop_lib.c:232
@@ -7064,7 +7064,7 @@ msgstr "Prihlasovanie zlyhalo."
 
 #: smtp.c:339
 #, fuzzy, c-format
-msgid "Invalid SMTP URL: %s"
+msgid "Invalid SMTP URI: %s"
 msgstr "Neplatný mesiac: %s"
 
 #: smtp.c:618

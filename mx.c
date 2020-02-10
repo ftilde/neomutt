@@ -104,7 +104,7 @@ struct EnumDef MagicDef = {
  * mx_ops - All the Mailbox backends
  */
 static const struct MxOps *mx_ops[] = {
-/* These mailboxes can be recognised by their Url scheme */
+/* These mailboxes can be recognised by their Uri scheme */
 #ifdef USE_IMAP
   &MxImapOps,
 #endif

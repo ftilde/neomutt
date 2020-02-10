@@ -190,7 +190,7 @@ void nm_mdata_free(void **ptr)
 
   mutt_debug(LL_DEBUG1, "nm: freeing context data %p\n", mdata);
 
-  url_free(&mdata->db_url);
+  uri_free(&mdata->db_uri);
   FREE(&mdata->db_query);
   FREE(ptr);
 }
@@ -213,8 +213,8 @@ struct NmMboxData *nm_mdata_new(const char *uri)
 
   mdata->db_limit = C_NmDbLimit;
   mdata->query_type = string_to_query_type(C_NmQueryType);
-  mdata->db_url = url_parse(uri);
-  if (!mdata->db_url)
+  mdata->db_uri = uri_parse(uri);
+  if (!mdata->db_uri)
   {
     mutt_error(_("failed to parse notmuch uri: %s"), uri);
     FREE(&mdata);
@@ -497,8 +497,8 @@ static char *get_query_string(struct NmMboxData *mdata, bool window)
 
   mdata->query_type = string_to_query_type(C_NmQueryType); /* user's default */
 
-  struct UrlQuery *item = NULL;
-  STAILQ_FOREACH(item, &mdata->db_url->query_strings, entries)
+  struct UriQuery *item = NULL;
+  STAILQ_FOREACH(item, &mdata->db_uri->query_strings, entries)
   {
     if (!item->value || !item->name)
       continue;
@@ -1788,7 +1788,7 @@ char *nm_uri_from_query(struct Mailbox *m, char *buf, size_t buflen)
     return NULL;
   }
 
-  url_pct_encode(&uri[added], sizeof(uri) - added, buf);
+  uri_pct_encode(&uri[added], sizeof(uri) - added, buf);
 
   mutt_str_strfcpy(buf, uri, buflen);
   buf[buflen - 1] = '\0';
@@ -1925,22 +1925,22 @@ int nm_update_filename(struct Mailbox *m, const char *old_file,
  */
 static int nm_mbox_check_stats(struct Mailbox *m, int flags)
 {
-  struct UrlQuery *item = NULL;
-  struct Url *url = NULL;
+  struct UriQuery *item = NULL;
+  struct Uri *uri = NULL;
   char *db_filename = NULL, *db_query = NULL;
   notmuch_database_t *db = NULL;
   int rc = -1;
   int limit = C_NmDbLimit;
   mutt_debug(LL_DEBUG1, "nm: count\n");
 
-  url = url_parse(mailbox_path(m));
-  if (!url)
+  uri = uri_parse(mailbox_path(m));
+  if (!uri)
   {
     mutt_error(_("failed to parse notmuch uri: %s"), mailbox_path(m));
     goto done;
   }
 
-  STAILQ_FOREACH(item, &url->query_strings, entries)
+  STAILQ_FOREACH(item, &uri->query_strings, entries)
   {
     if (item->value && (strcmp(item->name, "query") == 0))
       db_query = item->value;
@@ -1958,7 +1958,7 @@ static int nm_mbox_check_stats(struct Mailbox *m, int flags)
   if (!db_query)
     goto done;
 
-  db_filename = url->path;
+  db_filename = uri->path;
   if (!db_filename)
   {
     if (C_NmDefaultUri)
@@ -2003,7 +2003,7 @@ done:
     nm_db_free(db);
     mutt_debug(LL_DEBUG1, "nm: count close DB\n");
   }
-  url_free(&url);
+  uri_free(&uri);
 
   mutt_debug(LL_DEBUG1, "nm: count done [rc=%d]\n", rc);
   return rc;

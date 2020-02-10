@@ -1376,7 +1376,7 @@ static int send_message(struct Email *e)
 
 #ifdef USE_SMTP
   old_write_bcc = C_WriteBcc;
-  if (C_SmtpUrl)
+  if (C_SmtpUri)
     C_WriteBcc = false;
 #endif
 #ifdef MIXMASTER
@@ -1419,7 +1419,7 @@ static int send_message(struct Email *e)
 #endif
 
 #ifdef USE_SMTP
-  if (C_SmtpUrl)
+  if (C_SmtpUri)
   {
     rc = mutt_smtp_send(&e->env->from, &e->env->to, &e->env->cc, &e->env->bcc,
                         mutt_b2s(tempfile), (e->content->encoding == ENC_8BIT));

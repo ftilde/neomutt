@@ -284,7 +284,7 @@ LIBEMAIL=	libemail.a
 LIBEMAILOBJS=	email/attach.o email/body.o email/email.o \
 		email/email_globals.o email/envelope.o email/from.o email/mime.o \
 		email/parameter.o email/parse.o email/rfc2047.o email/rfc2231.o \
-		email/tags.o email/thread.o email/url.o
+		email/tags.o email/thread.o email/uri.o
 CLEANFILES+=	$(LIBEMAIL) $(LIBEMAILOBJS)
 MUTTLIBS+=	$(LIBEMAIL)
 ALLOBJS+=	$(LIBEMAILOBJS)

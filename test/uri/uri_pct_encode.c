@@ -1,6 +1,6 @@
 /**
  * @file
- * Test code for url_tostring()
+ * Test code for uri_pct_encode()
  *
  * @authors
  * Copyright (C) 2019 Richard Russon <rich@flatcap.org>
@@ -27,17 +27,18 @@
 #include "address/lib.h"
 #include "email/lib.h"
 
-void test_url_tostring(void)
+void test_uri_pct_encode(void)
 {
-  // int url_tostring(struct Url *u, char *dest, size_t len, int flags);
+  // void uri_pct_encode(char *buf, size_t buflen, const char *src);
 
   {
-    char buf[32] = { 0 };
-    TEST_CHECK(url_tostring(NULL, buf, sizeof(buf), 0) != 0);
+    uri_pct_encode(NULL, 10, "apple");
+    TEST_CHECK_(1, "uri_pct_encode(NULL, 10, \"apple\")");
   }
 
   {
-    struct Url url = { 0 };
-    TEST_CHECK(url_tostring(&url, NULL, 10, 0) != 0);
+    char buf[32] = { 0 };
+    uri_pct_encode(buf, sizeof(buf), NULL);
+    TEST_CHECK_(1, "uri_pct_encode(&buf, sizeof(buf), NULL)");
   }
 }

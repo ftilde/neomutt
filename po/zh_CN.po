@@ -4866,7 +4866,7 @@ msgstr "未定义新闻服务器"
 #: nntp/newsrc.c:1017
 #, c-format
 msgid "%s is an invalid news server specification"
-msgstr "%s 是无效的新闻服务器 URL"
+msgstr "%s 是无效的新闻服务器 URI"
 
 #: nntp/nntp.c:238 nntp/nntp.c:779 pop/pop.c:742 pop/pop_lib.c:399
 msgid "Server closed connection"
@@ -4940,7 +4940,7 @@ msgstr "无法找到子帖因为服务器不支持 XPAT 命令"
 #: nntp/nntp.c:2439
 #, c-format
 msgid "%s is an invalid newsgroup specification"
-msgstr "%s 是无效的新闻组 URL"
+msgstr "%s 是无效的新闻组 URI"
 
 #: nntp/nntp.c:2478
 #, c-format
@@ -6316,8 +6316,8 @@ msgstr "认证失败"
 
 #: pop/pop_lib.c:78
 #, c-format
-msgid "Invalid POP URL: %s"
-msgstr "无效的 POP 地址(URL)：%s"
+msgid "Invalid POP URI: %s"
+msgstr "无效的 POP 地址(URI)：%s"
 
 #: pop/pop_lib.c:232
 msgid "Unable to leave messages on server"
@@ -6800,8 +6800,8 @@ msgstr "SMTP 会话失败：无法打开 %s"
 
 #: smtp.c:339
 #, c-format
-msgid "Invalid SMTP URL: %s"
-msgstr "无效的 SMTP 链接(URL)：%s"
+msgid "Invalid SMTP URI: %s"
+msgstr "无效的 SMTP 链接(URI)：%s"
 
 #: smtp.c:618
 #, c-format

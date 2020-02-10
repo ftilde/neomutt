@@ -6300,8 +6300,8 @@ msgstr "Uwierzytelnianie nie powiodło się"
 
 #: pop/pop_lib.c:78
 #, c-format
-msgid "Invalid POP URL: %s"
-msgstr "Błędny POP URL: %s"
+msgid "Invalid POP URI: %s"
+msgstr "Błędny POP URI: %s"
 
 #: pop/pop_lib.c:232
 msgid "Unable to leave messages on server"
@@ -6790,8 +6790,8 @@ msgstr "Sesja SMTP nie powiodła się: nie można otworzyć %s"
 
 #: smtp.c:339
 #, c-format
-msgid "Invalid SMTP URL: %s"
-msgstr "Błędny URL SMTP: %s"
+msgid "Invalid SMTP URI: %s"
+msgstr "Błędny URI SMTP: %s"
 
 #: smtp.c:618
 #, c-format

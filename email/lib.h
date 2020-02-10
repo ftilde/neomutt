@@ -40,7 +40,7 @@
  * | email/rfc2231.c        | @subpage email_rfc2231   |
  * | email/tags.c           | @subpage email_tags      |
  * | email/thread.c         | @subpage email_thread    |
- * | email/url.c            | @subpage email_url       |
+ * | email/uri.c            | @subpage email_uri       |
  */
 
 #ifndef MUTT_EMAIL_LIB_H
@@ -61,7 +61,7 @@
 #include "rfc2231.h"
 #include "tags.h"
 #include "thread.h"
-#include "url.h"
+#include "uri.h"
 // IWYU pragma: end_exports
 
 #endif /* MUTT_EMAIL_LIB_H */

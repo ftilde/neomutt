@@ -1,6 +1,6 @@
 /**
  * @file
- * Test code for url_pct_encode()
+ * Test code for uri_check_scheme()
  *
  * @authors
  * Copyright (C) 2019 Richard Russon <rich@flatcap.org>
@@ -27,18 +27,11 @@
 #include "address/lib.h"
 #include "email/lib.h"
 
-void test_url_pct_encode(void)
+void test_uri_check_scheme(void)
 {
-  // void url_pct_encode(char *buf, size_t buflen, const char *src);
+  // enum UriScheme uri_check_scheme(const char *s);
 
   {
-    url_pct_encode(NULL, 10, "apple");
-    TEST_CHECK_(1, "url_pct_encode(NULL, 10, \"apple\")");
-  }
-
-  {
-    char buf[32] = { 0 };
-    url_pct_encode(buf, sizeof(buf), NULL);
-    TEST_CHECK_(1, "url_pct_encode(&buf, sizeof(buf), NULL)");
+    TEST_CHECK(uri_check_scheme(NULL) == 0);
   }
 }

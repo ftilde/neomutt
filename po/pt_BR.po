@@ -6327,8 +6327,8 @@ msgstr "Autenticação falhou."
 
 #: pop/pop_lib.c:78
 #, c-format
-msgid "Invalid POP URL: %s"
-msgstr "URL POP inválida: %s"
+msgid "Invalid POP URI: %s"
+msgstr "URI POP inválida: %s"
 
 #: pop/pop_lib.c:232
 msgid "Unable to leave messages on server"
@@ -6820,8 +6820,8 @@ msgstr "Sessão SMTP falhou: incapaz de abrir %s"
 
 #: smtp.c:339
 #, c-format
-msgid "Invalid SMTP URL: %s"
-msgstr "URL SMTP inválida: %s"
+msgid "Invalid SMTP URI: %s"
+msgstr "URI SMTP inválida: %s"
 
 #: smtp.c:618
 #, c-format

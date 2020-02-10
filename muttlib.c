@@ -630,10 +630,10 @@ void mutt_pretty_mailbox(char *buf, size_t buflen)
 
   char *p = buf, *q = buf;
   size_t len;
-  enum UrlScheme scheme;
+  enum UriScheme scheme;
   char tmp[PATH_MAX];
 
-  scheme = url_check_scheme(buf);
+  scheme = uri_check_scheme(buf);
 
   if ((scheme == U_IMAP) || (scheme == U_IMAPS))
   {
@@ -644,7 +644,7 @@ void mutt_pretty_mailbox(char *buf, size_t buflen)
   if (scheme == U_NOTMUCH)
     return;
 
-  /* if buf is an url, only collapse path component */
+  /* if buf is an uri, only collapse path component */
   if (scheme != U_UNKNOWN)
   {
     p = strchr(buf, ':') + 1;

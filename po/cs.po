@@ -6375,8 +6375,8 @@ msgstr "Autentizace se nezdařila"
 
 #: pop/pop_lib.c:78
 #, c-format
-msgid "Invalid POP URL: %s"
-msgstr "Neplatné POP URL: %s"
+msgid "Invalid POP URI: %s"
+msgstr "Neplatné POP URI: %s"
 
 #: pop/pop_lib.c:232
 msgid "Unable to leave messages on server"
@@ -6865,8 +6865,8 @@ msgstr "SMTP relace selhala: nelze otevřít %s"
 
 #: smtp.c:339
 #, c-format
-msgid "Invalid SMTP URL: %s"
-msgstr "Neplatné SMTP URL: %s"
+msgid "Invalid SMTP URI: %s"
+msgstr "Neplatné SMTP URI: %s"
 
 #: smtp.c:618
 #, c-format

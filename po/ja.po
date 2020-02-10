@@ -6403,8 +6403,8 @@ msgstr "SASL 認証に失敗した"
 
 #: pop/pop_lib.c:78
 #, c-format
-msgid "Invalid POP URL: %s"
-msgstr "不正な POP URL: %s"
+msgid "Invalid POP URI: %s"
+msgstr "不正な POP URI: %s"
 
 #: pop/pop_lib.c:232
 msgid "Unable to leave messages on server"
@@ -6896,8 +6896,8 @@ msgstr "SMTP セッション失敗: %s をオープンできなかった"
 
 #: smtp.c:339
 #, c-format
-msgid "Invalid SMTP URL: %s"
-msgstr "不正な SMTP URL: %s"
+msgid "Invalid SMTP URI: %s"
+msgstr "不正な SMTP URI: %s"
 
 #: smtp.c:618
 #, c-format

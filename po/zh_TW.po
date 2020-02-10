@@ -6597,7 +6597,7 @@ msgstr "SASL 驗證失敗"
 
 #: pop/pop_lib.c:78
 #, fuzzy, c-format
-msgid "Invalid POP URL: %s"
+msgid "Invalid POP URI: %s"
 msgstr "無效的月份：%s"
 
 #: pop/pop_lib.c:232
@@ -7099,7 +7099,7 @@ msgstr "登入失敗： %s"
 
 #: smtp.c:339
 #, fuzzy, c-format
-msgid "Invalid SMTP URL: %s"
+msgid "Invalid SMTP URI: %s"
 msgstr "無效的月份：%s"
 
 #: smtp.c:618

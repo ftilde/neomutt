@@ -517,7 +517,7 @@ int nntp_newsrc_update(struct NntpAccountData *adata)
  * @param dst    Buffer for filename
  * @param dstlen Length of buffer
  * @param acct   Account
- * @param src    Path to add to the URL
+ * @param src    Path to add to the URI
  */
 static void cache_expand(char *dst, size_t dstlen, struct ConnAccount *acct, const char *src)
 {
@@ -527,12 +527,12 @@ static void cache_expand(char *dst, size_t dstlen, struct ConnAccount *acct, con
   /* server subdirectory */
   if (acct)
   {
-    struct Url url = { 0 };
+    struct Uri uri = { 0 };
 
-    mutt_account_tourl(acct, &url);
-    url.path = mutt_str_strdup(src);
-    url_tostring(&url, file, sizeof(file), U_PATH);
-    FREE(&url.path);
+    mutt_account_touri(acct, &uri);
+    uri.path = mutt_str_strdup(src);
+    uri_tostring(&uri, file, sizeof(file), U_PATH);
+    FREE(&uri.path);
   }
   else
     mutt_str_strfcpy(file, src ? src : "", sizeof(file));
@@ -553,19 +553,19 @@ static void cache_expand(char *dst, size_t dstlen, struct ConnAccount *acct, con
 }
 
 /**
- * nntp_expand_path - Make fully qualified url from newsgroup name
+ * nntp_expand_path - Make fully qualified uri from newsgroup name
  * @param buf    Buffer for the result
  * @param buflen Length of buffer
  * @param acct Account to serialise
  */
 void nntp_expand_path(char *buf, size_t buflen, struct ConnAccount *acct)
 {
-  struct Url url = { 0 };
+  struct Uri uri = { 0 };
 
-  mutt_account_tourl(acct, &url);
-  url.path = mutt_str_strdup(buf);
-  url_tostring(&url, buf, buflen, 0);
-  FREE(&url.path);
+  mutt_account_touri(acct, &uri);
+  uri.path = mutt_str_strdup(buf);
+  uri_tostring(&uri, buf, buflen, 0);
+  FREE(&uri.path);
 }
 
 /**
@@ -710,7 +710,7 @@ static void nntp_hcache_namer(const char *path, struct Buffer *dest)
  */
 header_cache_t *nntp_hcache_open(struct NntpMboxData *mdata)
 {
-  struct Url url = { 0 };
+  struct Uri uri = { 0 };
   char file[PATH_MAX];
 
   if (!mdata->adata || !mdata->adata->cacheable || !mdata->adata->conn ||
@@ -719,9 +719,9 @@ header_cache_t *nntp_hcache_open(struct NntpMboxData *mdata)
     return NULL;
   }
 
-  mutt_account_tourl(&mdata->adata->conn->account, &url);
-  url.path = mdata->group;
-  url_tostring(&url, file, sizeof(file), U_PATH);
+  mutt_account_touri(&mdata->adata->conn->account, &uri);
+  uri.path = mdata->group;
+  uri_tostring(&uri, file, sizeof(file), U_PATH);
   return mutt_hcache_open(C_NewsCacheDir, file, nntp_hcache_namer);
 }
 
@@ -909,11 +909,11 @@ void nntp_clear_cache(struct NntpAccountData *adata)
  *
  * | Expando | Description
  * |:--------|:--------------------------------------------------------
- * | \%a     | Account url
+ * | \%a     | Account uri
  * | \%p     | Port
  * | \%P     | Port if specified
  * | \%s     | News server name
- * | \%S     | Url schema
+ * | \%S     | Uri schema
  * | \%u     | Username
  */
 const char *nntp_format_str(char *buf, size_t buflen, size_t col, int cols, char op,
@@ -928,9 +928,9 @@ const char *nntp_format_str(char *buf, size_t buflen, size_t col, int cols, char
   {
     case 'a':
     {
-      struct Url url = { 0 };
-      mutt_account_tourl(acct, &url);
-      url_tostring(&url, fn, sizeof(fn), U_PATH);
+      struct Uri uri = { 0 };
+      mutt_account_touri(acct, &uri);
+      uri_tostring(&uri, fn, sizeof(fn), U_PATH);
       char *p = strchr(fn, '/');
       if (p)
         *p = '\0';
@@ -958,9 +958,9 @@ const char *nntp_format_str(char *buf, size_t buflen, size_t col, int cols, char
       break;
     case 'S':
     {
-      struct Url url = { 0 };
-      mutt_account_tourl(acct, &url);
-      url_tostring(&url, fn, sizeof(fn), U_PATH);
+      struct Uri uri = { 0 };
+      mutt_account_touri(acct, &uri);
+      uri_tostring(&uri, fn, sizeof(fn), U_PATH);
       char *p = strchr(fn, ':');
       if (p)
         *p = '\0';
@@ -1003,26 +1003,26 @@ struct NntpAccountData *nntp_select_server(struct Mailbox *m, char *server, bool
     return NULL;
   }
 
-  /* create account from news server url */
+  /* create account from news server uri */
   acct.flags = 0;
   acct.port = NNTP_PORT;
   acct.type = MUTT_ACCT_TYPE_NNTP;
   snprintf(file, sizeof(file), "%s%s", strstr(server, "://") ? "" : "news://", server);
-  struct Url *url = url_parse(file);
-  if (!url || (url->path && *url->path) ||
-      !((url->scheme == U_NNTP) || (url->scheme == U_NNTPS)) || !url->host ||
-      (mutt_account_fromurl(&acct, url) < 0))
+  struct Uri *uri = uri_parse(file);
+  if (!uri || (uri->path && *uri->path) ||
+      !((uri->scheme == U_NNTP) || (uri->scheme == U_NNTPS)) || !uri->host ||
+      (mutt_account_fromuri(&acct, uri) < 0))
   {
-    url_free(&url);
+    uri_free(&uri);
     mutt_error(_("%s is an invalid news server specification"), server);
     return NULL;
   }
-  if (url->scheme == U_NNTPS)
+  if (uri->scheme == U_NNTPS)
   {
     acct.flags |= MUTT_ACCT_SSL;
     acct.port = NNTP_SSL_PORT;
   }
-  url_free(&url);
+  uri_free(&uri);
 
   /* find connection by account */
   conn = mutt_conn_find(NULL, &acct);

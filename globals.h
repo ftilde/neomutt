@@ -126,7 +126,7 @@ WHERE long C_HeaderCachePagesize;            ///< Config: (hcache) Database page
 
 
 #ifdef USE_NNTP
-WHERE char *C_NewsServer;                    ///< Config: (nntp) Url of the news server
+WHERE char *C_NewsServer;                    ///< Config: (nntp) Uri of the news server
 #endif
 WHERE char *C_Record;                        ///< Config: Folder to save 'sent' messages
 WHERE char *C_Pager;                         ///< Config: External command for viewing messages, or 'builtin' to use NeoMutt's
@@ -140,7 +140,7 @@ WHERE char *C_Shell;                         ///< Config: External command to ru
 WHERE char *C_SimpleSearch;                  ///< Config: Pattern to search for when search doesn't contain ~'s
 #ifdef USE_SMTP
 WHERE char *C_SmtpUser;                      ///< Config: (smtp) Username for the SMTP server
-WHERE char *C_SmtpUrl;                       ///< Config: (smtp) Url of the SMTP server
+WHERE char *C_SmtpUri;                       ///< Config: (smtp) Uri of the SMTP server
 #endif /* USE_SMTP */
 WHERE char *C_Spoolfile;                     ///< Config: Inbox
 WHERE char *C_StatusFormat;                  ///< Config: printf-like format string for the index's status line

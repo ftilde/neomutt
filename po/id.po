@@ -6488,8 +6488,8 @@ msgstr "Authentikasi SASL gagal"
 
 #: pop/pop_lib.c:78
 #, fuzzy, c-format
-msgid "Invalid POP URL: %s"
-msgstr "URL SMTP tidak valid: %s"
+msgid "Invalid POP URI: %s"
+msgstr "URI SMTP tidak valid: %s"
 
 #: pop/pop_lib.c:232
 msgid "Unable to leave messages on server"
@@ -6984,8 +6984,8 @@ msgstr "Sesi SMTP gagal: tidak dapat membuka %s"
 
 #: smtp.c:339
 #, c-format
-msgid "Invalid SMTP URL: %s"
-msgstr "URL SMTP tidak valid: %s"
+msgid "Invalid SMTP URI: %s"
+msgstr "URI SMTP tidak valid: %s"
 
 #: smtp.c:618
 #, c-format

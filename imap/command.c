@@ -662,7 +662,7 @@ static void cmd_parse_lsub(struct ImapAccountData *adata, char *s)
   char buf[256];
   char errstr[256];
   struct Buffer err, token;
-  struct Url url = { 0 };
+  struct Uri uri = { 0 };
   struct ImapList list = { 0 };
 
   if (adata->cmdresult)
@@ -685,14 +685,14 @@ static void cmd_parse_lsub(struct ImapAccountData *adata, char *s)
   mutt_debug(LL_DEBUG3, "Subscribing to %s\n", list.name);
 
   mutt_str_strfcpy(buf, "mailboxes \"", sizeof(buf));
-  mutt_account_tourl(&adata->conn->account, &url);
+  mutt_account_touri(&adata->conn->account, &uri);
   /* escape \ and " */
   imap_quote_string(errstr, sizeof(errstr), list.name, true);
-  url.path = errstr + 1;
-  url.path[strlen(url.path) - 1] = '\0';
-  if (mutt_str_strcmp(url.user, C_ImapUser) == 0)
-    url.user = NULL;
-  url_tostring(&url, buf + 11, sizeof(buf) - 11, 0);
+  uri.path = errstr + 1;
+  uri.path[strlen(uri.path) - 1] = '\0';
+  if (mutt_str_strcmp(uri.user, C_ImapUser) == 0)
+    uri.user = NULL;
+  uri_tostring(&uri, buf + 11, sizeof(buf) - 11, 0);
   mutt_str_strcat(buf, sizeof(buf), "\"");
   mutt_buffer_init(&token);
   mutt_buffer_init(&err);

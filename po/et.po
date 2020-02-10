@@ -6559,7 +6559,7 @@ msgstr "SASL autentimine ebaõnnestus"
 
 #: pop/pop_lib.c:78
 #, fuzzy, c-format
-msgid "Invalid POP URL: %s"
+msgid "Invalid POP URI: %s"
 msgstr "Vigane    "
 
 #: pop/pop_lib.c:232
@@ -7060,7 +7060,7 @@ msgstr "SSL ebaõnnestus: %s"
 
 #: smtp.c:339
 #, fuzzy, c-format
-msgid "Invalid SMTP URL: %s"
+msgid "Invalid SMTP URI: %s"
 msgstr "Vigane    "
 
 #: smtp.c:618

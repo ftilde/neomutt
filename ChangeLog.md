@@ -352,7 +352,7 @@ yyyy-mm-dd
   - lua: enable myvars
   - for pgpewrap in default gpg.rc
   - reply_regexp which wasn't formatted correctly.
-  - parsing of urls containing '?'
+  - parsing of URIs containing '?'
   - out-of-bounds read in mutt_str_lws_len
 * Translations
   - Review fuzzy lt translations
@@ -515,7 +515,7 @@ yyyy-mm-dd
   - refactor out O_NOFOLLOW
   - initialise variables
   - lib: move List and Queue into library
-  - url: make notmuch query string parser generic
+  - uri: make notmuch query string parser generic
   - Wrap dirname(3) inside a mutt_dirname() function
 
 2017-10-13  Richard Russon  \<rich@flatcap.org\>
@@ -1376,7 +1376,7 @@ yyyy-mm-dd
   - Add a few explanatory comments to pop_auth_sasl().  (see #3862)
   - Fix GPGME signature zero timestamp and locale awareness issues. (closes #3882)
   - Handle presence of '--' delimiter in $sendmail. (closes #3168)
-  - Allow IPv6 literal addresses in URLs. (closes #3681)
+  - Allow IPv6 literal addresses in URIs. (closes #3681)
   - Fix gpgme segfault in create_recipient_set().
   - Use mutt_strlen and mutt_strncmp in sidebar.c.
   - Change sidebar to only match $folder prefix on a $sidebar_divider_char. (closes #3887)
@@ -1437,7 +1437,7 @@ yyyy-mm-dd
   - Change gcc build options to prevent crashes
 * Upstream
   - Ensure signatures exist when verifying multipart/signed emails. (closes #3881).
-  - RFC2047-decode mailto url headers after RFC2822 parsing. (closes #3879)
+  - RFC2047-decode mailto uri headers after RFC2822 parsing. (closes #3879)
   - RFC2047-decode mailto header values. (closes #3879)
   - Reset invalid parsed received dates to 0.  (closes #3878)
   - Clear pager position when toggling headers.

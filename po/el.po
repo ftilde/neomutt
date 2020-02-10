@@ -6568,7 +6568,7 @@ msgstr "Αυθεντικοποίηση SASL απέτυχε"
 
 #: pop/pop_lib.c:78
 #, fuzzy, c-format
-msgid "Invalid POP URL: %s"
+msgid "Invalid POP URI: %s"
 msgstr "Μη έγκυρο   "
 
 #: pop/pop_lib.c:232
@@ -7068,7 +7068,7 @@ msgstr "SSL απέτυχε: %s"
 
 #: smtp.c:339
 #, fuzzy, c-format
-msgid "Invalid SMTP URL: %s"
+msgid "Invalid SMTP URI: %s"
 msgstr "Μη έγκυρο   "
 
 #: smtp.c:618

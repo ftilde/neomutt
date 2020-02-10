@@ -1,6 +1,6 @@
 /**
  * @file
- * Test code for url_check_scheme()
+ * Test code for uri_free()
  *
  * @authors
  * Copyright (C) 2019 Richard Russon <rich@flatcap.org>
@@ -27,11 +27,18 @@
 #include "address/lib.h"
 #include "email/lib.h"
 
-void test_url_check_scheme(void)
+void test_uri_free(void)
 {
-  // enum UrlScheme url_check_scheme(const char *s);
+  // void uri_free(struct Uri **u);
 
   {
-    TEST_CHECK(url_check_scheme(NULL) == 0);
+    uri_free(NULL);
+    TEST_CHECK_(1, "uri_free(NULL)");
+  }
+
+  {
+    struct Uri *uri = NULL;
+    uri_free(&uri);
+    TEST_CHECK_(1, "uri_free(&uri)");
   }
 }

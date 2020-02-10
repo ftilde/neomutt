@@ -1523,12 +1523,12 @@ void mutt_buffer_select_file(struct Buffer *file, SelectFileFlags flags,
               /* tack on delimiter here */
 
               /* special case "" needs no delimiter */
-              struct Url *url = url_parse(state.entry[menu->current].name);
-              if (url->path && (state.entry[menu->current].delim != '\0'))
+              struct Uri *uri = uri_parse(state.entry[menu->current].name);
+              if (uri->path && (state.entry[menu->current].delim != '\0'))
               {
                 mutt_buffer_addch(&LastDir, state.entry[menu->current].delim);
               }
-              url_free(&url);
+              uri_free(&uri);
             }
 #endif
             else

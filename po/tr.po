@@ -6461,8 +6461,8 @@ msgstr "SASL doğrulaması başarısız oldu"
 
 #: pop/pop_lib.c:78
 #, c-format
-msgid "Invalid POP URL: %s"
-msgstr "Geçersiz POP URL: %s"
+msgid "Invalid POP URI: %s"
+msgstr "Geçersiz POP URI: %s"
 
 #: pop/pop_lib.c:232
 msgid "Unable to leave messages on server"
@@ -6961,8 +6961,8 @@ msgstr "Yeniden isimlendirme başarısız: %s"
 
 #: smtp.c:339
 #, c-format
-msgid "Invalid SMTP URL: %s"
-msgstr "Geçersiz SMTP URL: %s"
+msgid "Invalid SMTP URI: %s"
+msgstr "Geçersiz SMTP URI: %s"
 
 #: smtp.c:618
 #, c-format

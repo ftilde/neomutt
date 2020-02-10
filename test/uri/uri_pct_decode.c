@@ -1,6 +1,6 @@
 /**
  * @file
- * Test code for url_free()
+ * Test code for uri_pct_decode()
  *
  * @authors
  * Copyright (C) 2019 Richard Russon <rich@flatcap.org>
@@ -27,18 +27,11 @@
 #include "address/lib.h"
 #include "email/lib.h"
 
-void test_url_free(void)
+void test_uri_pct_decode(void)
 {
-  // void url_free(struct Url **u);
+  // int uri_pct_decode(char *s);
 
   {
-    url_free(NULL);
-    TEST_CHECK_(1, "url_free(NULL)");
-  }
-
-  {
-    struct Url *url = NULL;
-    url_free(&url);
-    TEST_CHECK_(1, "url_free(&url)");
+    TEST_CHECK(uri_pct_decode(NULL) != 0);
   }
 }

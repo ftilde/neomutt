@@ -758,11 +758,11 @@ void mutt_crypt_hook(struct ListHead *list, struct Address *addr)
 #ifdef USE_SOCKET
 /**
  * mutt_account_hook - Perform an account hook
- * @param url Account URL to match
+ * @param uri Account URI to match
  */
-void mutt_account_hook(const char *url)
+void mutt_account_hook(const char *uri)
 {
-  /* parsing commands with URLs in an account hook can cause a recursive
+  /* parsing commands with URIs in an account hook can cause a recursive
    * call. We just skip processing if this occurs. Typically such commands
    * belong in a folder-hook -- perhaps we should warn the user. */
   static bool inhook = false;
@@ -778,10 +778,10 @@ void mutt_account_hook(const char *url)
     if (!(hook->command && (hook->type & MUTT_ACCOUNT_HOOK)))
       continue;
 
-    if (mutt_regex_match(&hook->regex, url))
+    if (mutt_regex_match(&hook->regex, uri))
     {
       inhook = true;
-      mutt_debug(LL_DEBUG1, "account-hook '%s' matches '%s'\n", hook->regex.pattern, url);
+      mutt_debug(LL_DEBUG1, "account-hook '%s' matches '%s'\n", hook->regex.pattern, uri);
       mutt_debug(LL_DEBUG5, "    %s\n", hook->command);
 
       if (mutt_parse_rc_line(hook->command, token, err) == MUTT_CMD_ERROR)

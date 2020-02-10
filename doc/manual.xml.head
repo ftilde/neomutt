@@ -328,7 +328,7 @@ vim: ts=2 sw=2 sts=2 expandtab:
           To give the user a good overview, it is possible to configure NeoMutt
           to show different things in the pager with different colors.
           Virtually everything that can be described with a regular expression
-          can be colored, e.g. URLs, email addresses or smileys.
+          can be colored, e.g. URIs, email addresses or smileys.
         </para>
       </sect2>
 
@@ -2459,7 +2459,7 @@ color sidebar_divider   color8  default     <emphasis role="comment"># Dark grey
                 <link linkend="honor-followup-to">$honor_followup_to</link>
                 configuration variable is set. In addition, the
                 <literal>List-Post</literal> header field is examined for
-                <literal>mailto:</literal> URLs specifying a mailing list
+                <literal>mailto:</literal> URIs specifying a mailing list
                 address. Using this when replying to messages posted to
                 mailing lists helps avoid duplicate copies being sent to the
                 author of the message you are replying to.
@@ -2876,7 +2876,7 @@ color sidebar_divider   color8  default     <emphasis role="comment"># Dark grey
           After exiting the compose menu via <literal>&lt;send-message&gt;</literal>,
           the message will be sent.  If configured and enabled, this can happen via
           <link linkend="sending-mixmaster">mixmaster</link> or
-          <link linkend="smtp">$smtp_url</link>.  Otherwise
+          <link linkend="smtp">$smtp_uri</link>.  Otherwise
           <link linkend="sendmail">$sendmail</link> will be invoked.  Prior to
           version 2019-11-29, NeoMutt enabled <link linkend="write-bcc">$write_bcc</link> by
           default, assuming the MTA would automatically remove a
@@ -5859,8 +5859,8 @@ unignore posted-to:
       <para>
         <emphasis>folder</emphasis> can either be a local file or directory
         (Mbox/Mmdf or Maildir/Mh). If NeoMutt was built with POP and/or IMAP
-        support, <emphasis>folder</emphasis> can also be a POP/IMAP folder URL.
-        The URL syntax is described in <xref linkend="url-syntax" />, POP and
+        support, <emphasis>folder</emphasis> can also be a POP/IMAP folder URI.
+        The URI syntax is described in <xref linkend="uri-syntax" />, POP and
         IMAP are described in <xref linkend="pop" /> and
         <xref linkend="imap" /> respectively.
       </para>
@@ -7320,7 +7320,7 @@ set index_format="%4C %Z %{%b %d} %-15.15L (%?l?%4l&amp;%4c?)%*  %s"
     </sect1>
 
     <sect1 id="mailto-allow">
-      <title>Control allowed header fields in a mailto: URL</title>
+      <title>Control allowed header fields in a mailto: URI</title>
       <para>
         Usage:
       </para>
@@ -7346,7 +7346,7 @@ set index_format="%4C %Z %{%b %d} %-15.15L (%?l?%4l&amp;%4c?)%*  %s"
       </cmdsynopsis>
       <para>
         As a security measure, NeoMutt will only add user-approved header
-        fields from a <literal>mailto:</literal> URL. This is necessary since
+        fields from a <literal>mailto:</literal> URI. This is necessary since
         NeoMutt will handle certain header fields, such as
         <literal>Attach:</literal>, in a special way. The
         <literal>mailto_allow</literal> and <literal>unmailto_allow</literal>
@@ -9724,17 +9724,17 @@ mailboxes `find ~/.mail/ -type d -name cur | sort | sed -e 's:/cur/*$::' -e 's/ 
         documentation whether DSN is supported.
       </para>
       <para>
-        For SMTP delivery using <link linkend="smtp-url">$smtp_url</link>, it
+        For SMTP delivery using <link linkend="smtp-uri">$smtp_uri</link>, it
         depends on the capabilities announced by the server whether NeoMutt
         will attempt to request DSN or not.
       </para>
     </sect1>
 
     <sect1 id="urlview">
-      <title>Start a WWW Browser on URLs</title>
+      <title>Start a WWW Browser on URIs</title>
       <para>
-        If a message contains URLs, it is efficient to get a menu with all the
-        URLs and start a WWW browser on one of them. This functionality is
+        If a message contains URIs, it is efficient to get a menu with all the
+        URIs and start a WWW browser on one of them. This functionality is
         provided by the external urlview program which can be retrieved at
         <ulink url="ftp://ftp.mutt.org/mutt/contrib/">ftp://ftp.mutt.org/mutt/contrib/</ulink>
         and the configuration commands:
@@ -11368,12 +11368,12 @@ mime_lookup application/octet-stream application/X-Lotus-Manuscript
         <screen>-openssl +gnutls</screen>
       </sect2>
 
-      <sect2 id="url-syntax">
-        <title>URL Syntax</title>
+      <sect2 id="uri-syntax">
+        <title>URI Syntax</title>
         <para>
           NeoMutt optionally supports the IMAP, POP3 and SMTP protocols which
-          require to access servers using URLs. The canonical syntax for
-          specifying URLs in NeoMutt is (an item enclosed in
+          require to access servers using URIs. The canonical syntax for
+          specifying URIs in NeoMutt is (an item enclosed in
           <literal>[]</literal> means it is optional and may be omitted):
         </para>
         <screen>proto[s]://[username[:password]@]server[:port][/path]</screen>
@@ -11386,18 +11386,18 @@ mime_lookup application/octet-stream application/X-Lotus-Manuscript
         </para>
         <para>
           Since all protocols supported by NeoMutt support/require
-          authentication, login credentials may be specified in the URL. This
+          authentication, login credentials may be specified in the URI. This
           has the advantage that multiple IMAP, POP3 or SMTP servers may be
           specified (which isn't possible using, for example,
           <link linkend="imap-user">$imap_user</link>). The username may contain
           the <quote>@</quote> symbol being used by many mail systems as part
           of the login name. The special characters <quote>/</quote>
           (<literal>%2F</literal>), <quote>:</quote> (<literal>%3A</literal>)
-          and <quote>%</quote> (<literal>%25</literal>) have to be URL-encoded
+          and <quote>%</quote> (<literal>%25</literal>) have to be URI-encoded
           in usernames using the <literal>%</literal>-notation.
         </para>
         <para>
-          A password can be given, too but is not recommended if the URL is
+          A password can be given, too but is not recommended if the URI is
           specified in a configuration file on disk.
         </para>
         <para>
@@ -11408,8 +11408,8 @@ mime_lookup application/octet-stream application/X-Lotus-Manuscript
         <para>
           The optional path is only relevant for IMAP and ignored elsewhere.
         </para>
-        <example id="ex-url">
-          <title>URLs</title>
+        <example id="ex-uri">
+          <title>URIs</title>
 
 <screen>
 pops://host/
@@ -11442,10 +11442,10 @@ smtp://user@host:587/
         located on a remote POP3 server and fetch mail for local browsing.
       </para>
       <para>
-        Remote POP3 servers can be accessed using URLs with the
+        Remote POP3 servers can be accessed using URIs with the
         <literal>pop</literal> protocol for unencrypted and
         <literal>pops</literal> for encrypted communication, see
-        <xref linkend="url-syntax" /> for details.
+        <xref linkend="uri-syntax" /> for details.
       </para>
       <para>
         Polling for new mail is more expensive over POP3 than locally. For this
@@ -11490,8 +11490,8 @@ smtp://user@host:587/
         located on a remote IMAP server.
       </para>
       <para>
-        You can access the remote inbox by selecting the folder by its URL (see
-        <xref linkend="url-syntax" /> for details) using the
+        You can access the remote inbox by selecting the folder by its URI (see
+        <xref linkend="uri-syntax" /> for details) using the
         <literal>imap</literal> or <literal>imaps</literal> protocol.
         Alternatively, a pine-compatible notation is also supported, i.e.
         <literal>{[username@]imapserver[:port][/ssl]}path/to/folder</literal>
@@ -11642,14 +11642,14 @@ set timeout=15
         a sendmail-compatible program, NeoMutt supports delivery through SMTP.
       </para>
       <para>
-        If the configuration variable <link linkend="smtp-url">$smtp_url</link>
+        If the configuration variable <link linkend="smtp-uri">$smtp_uri</link>
         is set, NeoMutt will contact the given SMTP server to deliver messages;
         if it is unset, NeoMutt will use the program specified by
         <link linkend="sendmail">$sendmail</link>.
       </para>
       <para>
-        For details on the URL syntax, please see
-        <xref linkend="url-syntax" />.
+        For details on the URI syntax, please see
+        <xref linkend="uri-syntax" />.
       </para>
       <para>
         The built-in SMTP support supports encryption (the
@@ -17923,7 +17923,7 @@ neomutt -a image.jpg *.png -- address1 address2
             <replaceable>address</replaceable>
           </arg>
           <arg choice="plain">
-            <replaceable>mailto_url</replaceable>
+            <replaceable>mailto_uri</replaceable>
           </arg>
         </group>
       </cmdsynopsis>
@@ -17977,7 +17977,7 @@ neomutt -s "data set for run #2" professor@bigschool.edu &lt; ~/run2.dat
       </note>
       <para>
         In addition to accepting a list of email addresses, NeoMutt also
-        accepts a URL with the <literal>mailto:</literal> schema as specified
+        accepts a URI with the <literal>mailto:</literal> schema as specified
         in RFC2368. This is useful when configuring a web browser to launch
         NeoMutt when clicking on mailto links.
       </para>

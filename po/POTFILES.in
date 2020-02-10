@@ -60,7 +60,7 @@ email/rfc2047.c
 email/rfc2231.c
 email/tags.c
 email/thread.c
-email/url.c
+email/uri.c
 enriched.c
 enter.c
 flags.c

@@ -6433,7 +6433,7 @@ msgstr "SASL-rajtiĝo malsukcesis"
 
 #: pop/pop_lib.c:78
 #, c-format
-msgid "Invalid POP URL: %s"
+msgid "Invalid POP URI: %s"
 msgstr "Nevalida POP-adreso: %s"
 
 #: pop/pop_lib.c:232
@@ -6930,7 +6930,7 @@ msgstr "SMTP-konekto malsukcesis: ne povis malfermi %s"
 
 #: smtp.c:339
 #, c-format
-msgid "Invalid SMTP URL: %s"
+msgid "Invalid SMTP URI: %s"
 msgstr "Nevalida SMTP-adreso: %s"
 
 #: smtp.c:618

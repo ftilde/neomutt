@@ -7,7 +7,7 @@
 # Vincent Lefevre <vincent@vinc17.net>, 1998-2019
 #
 # Note [VL]. In case you need it, you may find the latest temporary version
-#            at this URL:   https://www.vinc17.net/neomutt/fr.po
+#            at this URI:   https://www.vinc17.net/neomutt/fr.po
 #
 # Traductions possibles de "timestamp":
 # _ horodatage
@@ -6638,8 +6638,8 @@ msgstr "L'authentification SASL a échoué"
 # , c-format
 #: pop/pop_lib.c:78
 #, c-format
-msgid "Invalid POP URL: %s"
-msgstr "URL POP invalide : %s"
+msgid "Invalid POP URI: %s"
+msgstr "URI POP invalide : %s"
 
 #: pop/pop_lib.c:232
 msgid "Unable to leave messages on server"
@@ -7146,8 +7146,8 @@ msgstr "La session SMTP a échoué : impossible d'ouvrir %s"
 # , c-format
 #: smtp.c:339
 #, c-format
-msgid "Invalid SMTP URL: %s"
-msgstr "URL SMTP invalide : %s"
+msgid "Invalid SMTP URI: %s"
+msgstr "URI SMTP invalide : %s"
 
 #: smtp.c:618
 #, c-format

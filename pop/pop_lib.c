@@ -69,30 +69,30 @@ int pop_parse_path(const char *path, struct ConnAccount *acct)
   acct->type = MUTT_ACCT_TYPE_POP;
   acct->port = 0;
 
-  struct Url *url = url_parse(path);
+  struct Uri *uri = uri_parse(path);
 
-  if (!url || ((url->scheme != U_POP) && (url->scheme != U_POPS)) ||
-      !url->host || (mutt_account_fromurl(acct, url) < 0))
+  if (!uri || ((uri->scheme != U_POP) && (uri->scheme != U_POPS)) ||
+      !uri->host || (mutt_account_fromuri(acct, uri) < 0))
   {
-    url_free(&url);
-    mutt_error(_("Invalid POP URL: %s"), path);
+    uri_free(&uri);
+    mutt_error(_("Invalid POP URI: %s"), path);
     return -1;
   }
 
-  if (url->scheme == U_POPS)
+  if (uri->scheme == U_POPS)
     acct->flags |= MUTT_ACCT_SSL;
 
   struct servent *service =
-      getservbyname((url->scheme == U_POP) ? "pop3" : "pop3s", "tcp");
+      getservbyname((uri->scheme == U_POP) ? "pop3" : "pop3s", "tcp");
   if (acct->port == 0)
   {
     if (service)
       acct->port = ntohs(service->s_port);
     else
-      acct->port = (url->scheme == U_POP) ? POP_PORT : POP_SSL_PORT;
+      acct->port = (uri->scheme == U_POP) ? POP_PORT : POP_SSL_PORT;
   }
 
-  url_free(&url);
+  uri_free(&uri);
   return 0;
 }
 

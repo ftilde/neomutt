@@ -26,7 +26,7 @@
  * RFC2231 MIME Charset routines
  *
  * Yet another MIME encoding for header data.  This time, it's parameters,
- * specified in RFC2231, and modelled after the encoding used in URLs.
+ * specified in RFC2231, and modelled after the encoding used in URIs.
  *
  * Additionally, continuations and encoding are mixed in an, errrm, interesting
  * manner.
